@@ -36,6 +36,13 @@
   .progress-label strong { color: #1b4332; }
   .reset-btn { background: white; border: 1px solid #cbd5c9; color: #444; font-size: 0.8rem; padding: 5px 12px; border-radius: 20px; cursor: pointer; }
   .reset-btn:hover { background: #fef2f2; border-color: #fca5a5; color: #b91c1c; }
+  .sync-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.78rem; flex-wrap: wrap; gap: 8px; }
+  .sync-status { color: #888; }
+  .sync-status.ok { color: #2d6a4f; font-weight: 600; }
+  .sync-status.warn { color: #b45309; font-weight: 600; }
+  .sync-status.info { color: #3b82f6; font-weight: 600; }
+  .token-btn { background: white; border: 1px solid #bcdcf7; color: #1e3a5f; font-size: 0.76rem; padding: 4px 12px; border-radius: 20px; cursor: pointer; }
+  .token-btn:hover { background: #eff6ff; }
 
   .section-title { display: flex; align-items: center; gap: 12px; margin: 36px 0 16px; }
   .section-title .badge { background: #2d6a4f; color: white; padding: 6px 18px; border-radius: 30px; font-size: 1rem; font-weight: 700; white-space: nowrap; }
@@ -96,6 +103,10 @@
     <button class="reset-btn" onclick="resetAll()">Desmarcar tudo</button>
   </div>
   <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar"></div></div>
+  <div class="sync-row">
+    <span id="sync-status" class="sync-status">🔄 Carregando lista compartilhada...</span>
+    <button class="token-btn" onclick="configurarToken()">🔑 Configurar token do GitHub</button>
+  </div>
 </div>
 
 <div class="note-box">
@@ -1009,6 +1020,29 @@
 <script>
 (function() {
   const STORAGE_KEY = 'lista-compras-jk-checked';
+
+  // ===== Sincronização compartilhada via GitHub =====
+  const GITHUB_OWNER = 'kevinsilvatec';
+  const GITHUB_REPO = 'meal-plan';
+  const GITHUB_BRANCH = 'main';
+  const DATA_PATH = 'data/checklist.json';
+  const TOKEN_KEY = 'lista-compras-jk-github-token';
+  const API_URL = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/' + DATA_PATH;
+
+  let currentSha = null;
+
+  function getToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
+  function setToken(t) { if (t) localStorage.setItem(TOKEN_KEY, t.trim()); else localStorage.removeItem(TOKEN_KEY); }
+  function b64EncodeUnicode(str) { return btoa(unescape(encodeURIComponent(str))); }
+  function b64DecodeUnicode(str) { return decodeURIComponent(escape(atob(str))); }
+
+  function setSyncStatus(text, kind) {
+    const el = document.getElementById('sync-status');
+    if (!el) return;
+    el.textContent = text;
+    el.className = 'sync-status ' + (kind || '');
+  }
+
   function getChecked() {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
     catch (e) { return {}; }
@@ -1016,6 +1050,7 @@
   function saveChecked(obj) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
   }
+
   function updateProgress() {
     const all = document.querySelectorAll('.chk');
     let total = all.length, checked = 0;
@@ -1035,6 +1070,7 @@
       el.textContent = s.checked + ' de ' + s.total + ' itens comprados nesta seção';
     });
   }
+
   function applyState() {
     const state = getChecked();
     document.querySelectorAll('.chk').forEach(chk => {
@@ -1044,6 +1080,84 @@
     });
     updateProgress();
   }
+
+  async function fetchRemoteState() {
+    const headers = { 'Accept': 'application/vnd.github+json' };
+    const token = getToken();
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+    try {
+      const res = await fetch(API_URL + '?ref=' + GITHUB_BRANCH, { headers, cache: 'no-store' });
+      if (res.status === 404) { currentSha = null; return {}; }
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      currentSha = data.sha;
+      return JSON.parse(b64DecodeUnicode(data.content.replace(/\n/g, '')));
+    } catch (err) {
+      console.warn('Falha ao buscar estado compartilhado:', err);
+      return null;
+    }
+  }
+
+  async function pushRemoteState(state) {
+    const token = getToken();
+    if (!token) { setSyncStatus('⚠️ Sem token — mudança salva só neste aparelho', 'warn'); return false; }
+    const body = {
+      message: 'Atualiza lista de compras',
+      content: b64EncodeUnicode(JSON.stringify(state, null, 2)),
+      branch: GITHUB_BRANCH,
+    };
+    if (currentSha) body.sha = currentSha;
+    try {
+      const res = await fetch(API_URL, {
+        method: 'PUT',
+        headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (res.status === 409 || res.status === 422) {
+        const remote = await fetchRemoteState();
+        if (remote) return pushRemoteState(Object.assign({}, remote, state));
+        setSyncStatus('⚠️ Conflito ao sincronizar, tente novamente', 'warn');
+        return false;
+      }
+      if (!res.ok) {
+        console.warn('Falha ao salvar no GitHub:', res.status, await res.text());
+        setSyncStatus('⚠️ Falha ao sincronizar (token válido?)', 'warn');
+        return false;
+      }
+      const data = await res.json();
+      currentSha = data.content.sha;
+      setSyncStatus('✅ Sincronizado com o GitHub', 'ok');
+      return true;
+    } catch (err) {
+      console.warn('Erro de rede ao salvar no GitHub:', err);
+      setSyncStatus('⚠️ Sem conexão — salvo só neste aparelho', 'warn');
+      return false;
+    }
+  }
+
+  async function syncFromRemote() {
+    const remote = await fetchRemoteState();
+    if (remote === null) {
+      setSyncStatus(getToken() ? '⚠️ Não foi possível buscar a lista compartilhada' : '⚠️ Sem token configurado — clique em "Configurar token"', 'warn');
+      return;
+    }
+    const local = getChecked();
+    if (JSON.stringify(remote) !== JSON.stringify(local)) {
+      saveChecked(remote);
+      applyState();
+    }
+    setSyncStatus(getToken() ? '✅ Sincronizado com o GitHub' : 'ℹ️ Lendo lista compartilhada (configure um token para marcar itens)', getToken() ? 'ok' : 'info');
+  }
+
+  window.configurarToken = function() {
+    const current = getToken();
+    const value = prompt('Cole aqui o token do GitHub (fine-grained, permissão "Contents: Read and write", restrito ao repositório ' + GITHUB_REPO + '). Fica salvo só neste navegador, nunca é enviado para mais ninguém.', current);
+    if (value === null) return;
+    setToken(value.trim());
+    setSyncStatus('🔄 Verificando token...', 'info');
+    syncFromRemote();
+  };
+
   document.addEventListener('change', function(e) {
     if (!e.target.classList.contains('chk')) return;
     const state = getChecked();
@@ -1051,13 +1165,25 @@
     saveChecked(state);
     e.target.closest('.item').classList.toggle('checked', e.target.checked);
     updateProgress();
+    setSyncStatus('🔄 Salvando...', 'info');
+    pushRemoteState(state);
   });
+
   window.resetAll = function() {
     if (!confirm('Desmarcar todos os itens da lista?')) return;
-    localStorage.removeItem(STORAGE_KEY);
+    const empty = {};
+    saveChecked(empty);
     applyState();
+    setSyncStatus('🔄 Salvando...', 'info');
+    pushRemoteState(empty);
   };
+
   applyState();
+  syncFromRemote();
+  setInterval(syncFromRemote, 15000);
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) syncFromRemote();
+  });
 })();
 </script>
 
