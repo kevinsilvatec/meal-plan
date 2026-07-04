@@ -16,7 +16,8 @@
     "m-23": true,
     "m-27": true,
     "m-31": true,
-    "m-36": false
+    "m-36": false,
+    "m-37": true
   },
   "channel": {
     "m-1": "internet",
