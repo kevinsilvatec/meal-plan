@@ -44,7 +44,8 @@
     "mensal-oleos-1": true,
     "mensal-sementes-4": true,
     "mensal-sementes-5": true,
-    "mensal-sementes-6": false
+    "mensal-sementes-6": false,
+    "semanal-proteinas-1": true
   },
   "channel": {
     "m-1": "internet",
@@ -133,8 +134,7 @@
     "mensal-chas-3": "presencial",
     "mensal-chas-2": "presencial",
     "mensal-chas-6": "presencial",
-    "mensal-proteinas-1": "presencial",
-    "mensal-proteinas-2": "presencial"
+    "mensal-proteinas-1": "presencial"
   },
   "removed": [],
   "custom": []
