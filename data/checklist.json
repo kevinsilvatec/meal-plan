@@ -82,7 +82,8 @@
     "mensal-oleos-4": true,
     "mensal-chas-6": true,
     "mensal-sementes-2": true,
-    "mensal-sementes-1": true
+    "mensal-sementes-1": true,
+    "mensal-oleos-2": true
   },
   "channel": {
     "m-1": "internet",
