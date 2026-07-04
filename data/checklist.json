@@ -23,7 +23,8 @@
     "w-1": true,
     "w-3": true,
     "w-4": true,
-    "w-6": true
+    "w-6": true,
+    "w-11": true
   },
   "channel": {
     "m-1": "internet",
