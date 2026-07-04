@@ -1,4 +1,9 @@
 {
-  "m-1": false,
-  "m-3": false
+  "checked": {
+    "m-1": false,
+    "m-3": false
+  },
+  "channel": {
+    "m-1": "presencial"
+  }
 }
