@@ -4,6 +4,7 @@
     "m-3": false
   },
   "channel": {
-    "m-1": "internet"
+    "m-1": "internet",
+    "m-2": "internet"
   }
 }
