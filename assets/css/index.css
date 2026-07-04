@@ -1,0 +1,34 @@
+/* ===== Estilos específicos da página inicial (index.html) ===== */
+body {
+  padding: 48px 24px 60px;
+  max-width: 1000px;
+}
+header { text-align: center; margin-bottom: 40px; }
+header .emoji { font-size: 2.4rem; margin-bottom: 8px; }
+header h1 { font-size: 2rem; font-weight: 700; color: #1b4332; margin-bottom: 8px; }
+header p { color: #555; font-size: 1rem; line-height: 1.6; max-width: 560px; margin: 0 auto; }
+header .tags { margin-top: 14px; }
+.tag { display: inline-block; background: #d8f3dc; color: #1b4332; font-size: 0.78rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin: 3px; }
+.tag.orange { background: #ffedd5; color: #7c2d12; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 48px; }
+a.card {
+  background: white; border-radius: 18px; padding: 28px 24px;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+  border-top: 5px solid #2d6a4f;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+a.card:hover { transform: translateY(-4px); box-shadow: 0 8px 22px rgba(0,0,0,0.12); }
+a.card .card-icon { font-size: 2.2rem; margin-bottom: 14px; }
+a.card h2 { font-size: 1.15rem; color: #1b4332; margin-bottom: 8px; }
+a.card p { font-size: 0.88rem; color: #666; line-height: 1.55; flex: 1; }
+a.card .card-cta { margin-top: 16px; font-size: 0.82rem; font-weight: 700; color: #2d6a4f; display: flex; align-items: center; gap: 6px; }
+a.card .card-cta .arrow { transition: transform 0.15s ease; }
+a.card:hover .card-cta .arrow { transform: translateX(4px); }
+
+a.card.orange { border-top-color: #e76f51; }
+a.card.orange .card-cta { color: #e76f51; }
+a.card.blue { border-top-color: #3b82f6; }
+a.card.blue .card-cta { color: #3b82f6; }
