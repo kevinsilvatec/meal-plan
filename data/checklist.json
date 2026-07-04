@@ -41,7 +41,8 @@
     "mensal-temperos-4": true,
     "mensal-temperos-5": true,
     "mensal-temperos-6": true,
-    "mensal-oleos-1": true
+    "mensal-oleos-1": true,
+    "mensal-sementes-4": true
   },
   "channel": {
     "m-1": "internet",
@@ -121,7 +122,8 @@
     "mensal-sementes-1": "presencial",
     "mensal-sementes-2": "presencial",
     "mensal-sementes-3": "presencial",
-    "mensal-sementes-4": "presencial"
+    "mensal-sementes-4": "presencial",
+    "mensal-sementes-5": "presencial"
   },
   "removed": [],
   "custom": []
