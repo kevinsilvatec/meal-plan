@@ -49,7 +49,8 @@
     "semanal-proteinas-3": false,
     "mensal-oleos-5": true,
     "semanal-proteinas-4": true,
-    "semanal-proteinas-5": true
+    "semanal-proteinas-5": true,
+    "semanal-laticinios-2": true
   },
   "channel": {
     "m-1": "internet",
