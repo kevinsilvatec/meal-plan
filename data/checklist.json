@@ -2,7 +2,8 @@
   "checked": {
     "m-1": false,
     "m-3": false,
-    "m-6": false
+    "m-6": false,
+    "m-8": true
   },
   "channel": {
     "m-1": "internet",
