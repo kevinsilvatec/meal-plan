@@ -154,7 +154,8 @@
     "mensal-carboidratos-3": "presencial",
     "mensal-carboidratos-7": "presencial",
     "mensal-carboidratos-9": "presencial",
-    "custom-mr6n7ugp-mr4ws": "presencial"
+    "custom-mr6n7ugp-mr4ws": "presencial",
+    "custom-mr6n9qy0-zohis": "presencial"
   },
   "removed": [
     "mensal-suplementos-2",
@@ -172,6 +173,17 @@
       "qtyFreq": "/mês",
       "section": "mensal",
       "type": "suplementos"
+    },
+    {
+      "id": "custom-mr6n9qy0-zohis",
+      "name": "Patinho (Bife ou Tiras)",
+      "note": "",
+      "qty": "600 g/sem.",
+      "qtyValue": "600",
+      "qtyUnit": "g",
+      "qtyFreq": "/sem.",
+      "section": "semanal",
+      "type": "proteinas"
     }
   ]
 }
