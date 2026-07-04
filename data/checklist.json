@@ -80,6 +80,9 @@
     "w-1": "presencial",
     "w-10": "presencial",
     "w-16": "presencial",
-    "w-18": "presencial"
-  }
+    "w-18": "presencial",
+    "mensal-carboidratos-1": "presencial"
+  },
+  "removed": [],
+  "custom": []
 }
