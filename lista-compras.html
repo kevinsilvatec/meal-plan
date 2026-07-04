@@ -202,7 +202,32 @@
       <input type="text" id="add-name" placeholder="Ex: Papel toalha">
     </label>
     <label>Quantidade
-      <input type="text" id="add-qty" placeholder="Ex: 2 unid./mês">
+      <input type="text" id="add-qty-value" placeholder="Ex: 2" inputmode="decimal">
+    </label>
+    <label>Unidade de medida
+      <select id="add-qty-unit" onchange="toggleCustomUnit()">
+        <option value="g">g (gramas)</option>
+        <option value="kg">kg</option>
+        <option value="ml">ml</option>
+        <option value="L">L (litros)</option>
+        <option value="unid.">unid. (unidades)</option>
+        <option value="pote(s)">pote(s)</option>
+        <option value="pacote(s)">pacote(s)</option>
+        <option value="caixa(s)">caixa(s)</option>
+        <option value="frasco(s)">frasco(s)</option>
+        <option value="maço(s)">maço(s)</option>
+        <option value="outro">Outro...</option>
+      </select>
+    </label>
+    <label id="add-qty-unit-custom-wrap" style="display:none;">Especifique a unidade
+      <input type="text" id="add-qty-unit-custom" placeholder="Ex: dentes, pés, cabeças">
+    </label>
+    <label>Frequência
+      <select id="add-qty-freq">
+        <option value="/mês">por mês</option>
+        <option value="/sem.">por semana</option>
+        <option value="">item único (sem frequência)</option>
+      </select>
     </label>
     <label>Observação (opcional)
       <input type="text" id="add-note" placeholder="Ex: para a cozinha">
@@ -1294,6 +1319,12 @@
     document.getElementById('add-channel').value = (section === 'mensal') ? 'internet' : 'presencial';
   };
 
+  window.toggleCustomUnit = function() {
+    const unitSelect = document.getElementById('add-qty-unit');
+    const wrap = document.getElementById('add-qty-unit-custom-wrap');
+    wrap.style.display = (unitSelect.value === 'outro') ? '' : 'none';
+  };
+
   window.toggleAddForm = function(show) {
     const panel = document.getElementById('add-item-panel');
     const willShow = (show === undefined) ? (panel.style.display === 'none') : show;
@@ -1301,7 +1332,11 @@
     if (willShow) {
       populateTypeOptions();
       document.getElementById('add-name').value = '';
-      document.getElementById('add-qty').value = '';
+      document.getElementById('add-qty-value').value = '';
+      document.getElementById('add-qty-unit').value = 'unid.';
+      document.getElementById('add-qty-unit-custom').value = '';
+      document.getElementById('add-qty-unit-custom-wrap').style.display = 'none';
+      document.getElementById('add-qty-freq').value = '/mês';
       document.getElementById('add-note').value = '';
       document.getElementById('add-name').focus();
     }
@@ -1310,14 +1345,21 @@
   window.submitAddItem = function() {
     const name = document.getElementById('add-name').value.trim();
     if (!name) { alert('Digite o nome do item.'); return; }
-    const qty = document.getElementById('add-qty').value.trim();
+    const qtyValue = document.getElementById('add-qty-value').value.trim();
+    let qtyUnit = document.getElementById('add-qty-unit').value;
+    if (qtyUnit === 'outro') {
+      qtyUnit = document.getElementById('add-qty-unit-custom').value.trim();
+      if (!qtyUnit) { alert('Especifique a unidade de medida.'); return; }
+    }
+    const qtyFreq = document.getElementById('add-qty-freq').value;
+    const qty = [qtyValue, qtyUnit].filter(Boolean).join(' ').trim() + qtyFreq;
     const note = document.getElementById('add-note').value.trim();
     const section = document.getElementById('add-section').value;
     const type = document.getElementById('add-type').value;
     const channel = document.getElementById('add-channel').value;
     const id = 'custom-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7);
 
-    const item = { id, name, note, qty, section, type };
+    const item = { id, name, note, qty, qtyValue, qtyUnit, qtyFreq, section, type };
     const custom = getCustomItems();
     custom.push(item);
     saveCustomItems(custom);
