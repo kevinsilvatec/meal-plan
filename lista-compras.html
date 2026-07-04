@@ -43,6 +43,12 @@
   .sync-status.info { color: #3b82f6; font-weight: 600; }
   .token-btn { background: white; border: 1px solid #bcdcf7; color: #1e3a5f; font-size: 0.76rem; padding: 4px 12px; border-radius: 20px; cursor: pointer; }
   .token-btn:hover { background: #eff6ff; }
+  .tabs-bar { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+  .tab-btn { background: white; border: 1px solid #d8dcd8; color: #555; font-size: 0.86rem; font-weight: 600; padding: 8px 16px; border-radius: 20px; cursor: pointer; }
+  .tab-btn.active { background: #2d6a4f; border-color: #2d6a4f; color: white; }
+  .tab-btn[data-tab="internet"].active { background: #3b82f6; border-color: #3b82f6; }
+  .tab-btn[data-tab="presencial"].active { background: #e76f51; border-color: #e76f51; }
+  .reset-channels-link { background: none; border: none; color: #999; font-size: 0.74rem; text-decoration: underline; cursor: pointer; padding: 0; margin-left: auto; align-self: center; }
 
   .section-title { display: flex; align-items: center; gap: 12px; margin: 36px 0 16px; }
   .section-title .badge { background: #2d6a4f; color: white; padding: 6px 18px; border-radius: 30px; font-size: 1rem; font-weight: 700; white-space: nowrap; }
@@ -56,8 +62,15 @@
   .card { background: white; border-radius: 14px; padding: 18px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border-top: 4px solid #2d6a4f; }
   .card h3 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-bottom: 10px; }
 
-  .item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 4px; border-bottom: 1px solid #f0f0f0; cursor: pointer; user-select: none; }
-  .item:last-child { border-bottom: none; }
+  .item-row { display: flex; align-items: center; gap: 4px; border-bottom: 1px solid #f0f0f0; }
+  .item-row:last-child { border-bottom: none; }
+  .item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 4px; flex: 1; min-width: 0; cursor: pointer; user-select: none; }
+  .channel-toggle { display: flex; gap: 3px; flex-shrink: 0; padding-right: 2px; }
+  .ch-btn { border: 1px solid #e5e5e5; background: #fafafa; border-radius: 8px; width: 28px; height: 28px; font-size: 0.85rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0.4; transition: all 0.15s ease; }
+  .ch-btn:hover { opacity: 0.8; }
+  .ch-btn.active { opacity: 1; }
+  .ch-btn[data-ch="internet"].active { background: #dbeafe; border-color: #3b82f6; }
+  .ch-btn[data-ch="presencial"].active { background: #fff7ed; border-color: #e76f51; }
   .item input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
   .box { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; border: 2px solid #b7c9bd; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
   .item input:checked ~ .box { background: #2d6a4f; border-color: #2d6a4f; }
@@ -81,6 +94,51 @@
     .progress-wrap { position: static; backdrop-filter: none; }
     .reset-btn { display: none; }
   }
+
+  /* ===== Responsivo (celular) ===== */
+  html { -webkit-text-size-adjust: 100%; }
+  body { overflow-x: hidden; }
+
+  @media (max-width: 640px) {
+    body { padding: 16px 12px 90px; }
+
+    header { margin-bottom: 18px; padding-bottom: 14px; }
+    header h1 { font-size: 1.35rem; }
+    header p { font-size: 0.85rem; }
+    .tag { font-size: 0.72rem; padding: 3px 9px; }
+
+    .progress-wrap { padding: 10px 0 8px; margin-bottom: 4px; }
+    .progress-label { font-size: 0.8rem; }
+    .reset-btn, .token-btn { font-size: 0.74rem; padding: 7px 12px; }
+    .sync-row { gap: 6px; }
+    .sync-status { font-size: 0.74rem; flex: 1 1 100%; }
+    .token-btn { flex: 1 1 100%; text-align: center; }
+
+    .note-box { padding: 12px 14px; font-size: 0.84rem; margin: 14px 0; }
+
+    .section-title { margin: 26px 0 12px; flex-wrap: wrap; row-gap: 6px; }
+    .section-title .badge { font-size: 0.88rem; padding: 5px 14px; }
+    .section-title hr { flex-basis: 100%; order: 3; margin-top: 2px; }
+    .section-title p { white-space: normal; font-size: 0.78rem; }
+    .section-progress { margin: -4px 0 12px; }
+
+    .grid { grid-template-columns: 1fr; gap: 12px; }
+    .card { padding: 14px 16px; border-radius: 12px; }
+    .card h3 { font-size: 0.78rem; margin-bottom: 6px; }
+
+    .item { padding: 11px 2px; gap: 12px; }
+    .box { width: 24px; height: 24px; }
+    .item input:checked ~ .box::after { width: 6px; height: 11px; }
+    .item-body { flex-direction: column; gap: 2px; align-items: flex-start; }
+    .item-name { font-size: 0.9rem; }
+    .item-qty { text-align: left; min-width: 0; font-size: 0.8rem; }
+
+    .tabs-bar { gap: 6px; }
+    .tab-btn { font-size: 0.78rem; padding: 7px 12px; flex: 1 1 auto; text-align: center; }
+    .reset-channels-link { flex-basis: 100%; text-align: center; margin-left: 0; margin-top: 4px; }
+    .ch-btn { width: 26px; height: 26px; font-size: 0.8rem; }
+    .item { padding: 9px 2px; gap: 8px; }
+  }
 </style>
 </head>
 <body>
@@ -98,6 +156,12 @@
 </header>
 
 <div class="progress-wrap">
+  <div class="tabs-bar">
+    <button class="tab-btn" data-tab="all" onclick="selectTab('all')">📋 Todos</button>
+    <button class="tab-btn" data-tab="internet" onclick="selectTab('internet')">🌐 Internet</button>
+    <button class="tab-btn" data-tab="presencial" onclick="selectTab('presencial')">🏬 Presencial</button>
+    <button class="reset-channels-link" onclick="resetChannels()">redefinir divisão</button>
+  </div>
   <div class="progress-label">
     <span><strong id="progress-count">0</strong> de <span id="progress-total">0</span> itens comprados</span>
     <button class="reset-btn" onclick="resetAll()">Desmarcar tudo</button>
@@ -1020,6 +1084,34 @@
 <script>
 (function() {
   const STORAGE_KEY = 'lista-compras-jk-checked';
+  const CHANNEL_KEY = 'lista-compras-jk-channel-overrides';
+  const TAB_KEY = 'lista-compras-jk-active-tab';
+
+  // Categoria padrão de cada item: 'internet' (não perecível, fácil de entregar)
+  // ou 'presencial' (fresco/perecível, melhor escolher no local). Pode ser
+  // sobrescrito item a item pelos botões 🌐/🏬 — a sobreposição é sincronizada.
+  const DEFAULT_CHANNELS = {
+    // Compras Mensais — tudo não perecível
+    'm-1':'internet','m-2':'internet','m-3':'internet','m-4':'internet','m-5':'internet','m-6':'internet','m-7':'internet',
+    'm-8':'internet','m-9':'internet','m-10':'internet','m-11':'internet','m-12':'internet','m-13':'internet','m-14':'internet','m-15':'internet',
+    'm-16':'internet','m-17':'internet',
+    'm-18':'internet','m-19':'internet','m-20':'internet','m-21':'internet','m-22':'internet','m-23':'internet','m-24':'internet','m-25':'internet','m-26':'internet',
+    'm-27':'internet','m-28':'internet','m-29':'internet','m-30':'internet','m-31':'internet','m-32':'internet',
+    'm-33':'internet','m-34':'internet','m-35':'internet','m-36':'internet','m-37':'internet','m-38':'internet',
+    'm-39':'internet','m-40':'internet','m-41':'internet','m-42':'internet','m-43':'internet','m-44':'internet',
+    'm-45':'internet','m-46':'internet','m-47':'internet','m-48':'internet',
+    // Compras Semanais — perecíveis presenciais, exceto enlatados/estoque
+    'w-1':'presencial','w-2':'presencial','w-3':'presencial','w-4':'presencial','w-5':'presencial',
+    'w-6':'presencial','w-7':'presencial','w-8':'presencial','w-9':'presencial','w-10':'internet',
+    'w-11':'presencial','w-12':'presencial','w-13':'presencial','w-14':'presencial','w-15':'presencial','w-16':'presencial','w-17':'presencial','w-18':'presencial','w-19':'presencial','w-20':'presencial',
+    'w-21':'presencial','w-22':'presencial','w-23':'presencial','w-24':'presencial',
+    'w-25':'presencial','w-26':'presencial','w-27':'presencial',
+    'w-28':'presencial','w-29':'presencial','w-30':'presencial','w-31':'presencial','w-32':'presencial','w-33':'presencial','w-34':'presencial','w-35':'presencial',
+    'w-36':'internet','w-37':'presencial','w-38':'presencial','w-39':'internet','w-40':'presencial',
+    'w-41':'presencial','w-42':'internet','w-43':'presencial','w-44':'presencial','w-45':'presencial',
+    'w-46':'presencial','w-47':'presencial','w-48':'presencial',
+    'w-49':'presencial','w-50':'presencial','w-51':'internet',
+  };
 
   // ===== Sincronização compartilhada via GitHub =====
   const GITHUB_OWNER = 'kevinsilvatec';
@@ -1050,15 +1142,31 @@
   function saveChecked(obj) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
   }
+  function getChannelOverrides() {
+    try { return JSON.parse(localStorage.getItem(CHANNEL_KEY)) || {}; }
+    catch (e) { return {}; }
+  }
+  function saveChannelOverrides(obj) {
+    localStorage.setItem(CHANNEL_KEY, JSON.stringify(obj));
+  }
+  function effectiveChannel(id) {
+    const overrides = getChannelOverrides();
+    return overrides[id] || DEFAULT_CHANNELS[id] || 'presencial';
+  }
+  function getActiveTab() { return localStorage.getItem(TAB_KEY) || 'all'; }
+  function setActiveTab(t) { localStorage.setItem(TAB_KEY, t); }
 
+  // ===== Progresso (considera só os itens visíveis na aba atual) =====
   function updateProgress() {
-    const all = document.querySelectorAll('.chk');
-    let total = all.length, checked = 0;
+    const rows = Array.from(document.querySelectorAll('.item-row')).filter(r => r.style.display !== 'none');
+    let total = 0, checked = 0;
     const sectionTotals = {};
-    all.forEach(chk => {
+    rows.forEach(row => {
+      const chk = row.querySelector('.chk');
       const section = chk.closest('[data-section]').dataset.section;
       sectionTotals[section] = sectionTotals[section] || { total: 0, checked: 0 };
       sectionTotals[section].total++;
+      total++;
       if (chk.checked) { checked++; sectionTotals[section].checked++; }
     });
     document.getElementById('progress-count').textContent = checked;
@@ -1078,7 +1186,108 @@
       chk.checked = !!state[id];
       chk.closest('.item').classList.toggle('checked', chk.checked);
     });
+  }
+
+  // ===== Abas Internet / Presencial =====
+  function updateChannelButtonStates() {
+    document.querySelectorAll('.item-row').forEach(row => {
+      const id = row.querySelector('.chk').dataset.id;
+      const ch = effectiveChannel(id);
+      row.querySelectorAll('.ch-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.ch === ch));
+    });
+  }
+
+  function applyTabFilter() {
+    const tab = getActiveTab();
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+
+    document.querySelectorAll('.card').forEach(card => {
+      let anyVisible = false;
+      card.querySelectorAll('.item-row').forEach(row => {
+        const id = row.querySelector('.chk').dataset.id;
+        const ch = effectiveChannel(id);
+        const show = (tab === 'all') || (ch === tab);
+        row.style.display = show ? '' : 'none';
+        if (show) anyVisible = true;
+      });
+      card.style.display = anyVisible ? '' : 'none';
+    });
+
+    let anyMonthlyVisible = false, anyWeeklyVisible = false;
+    document.querySelectorAll('.grid').forEach(grid => {
+      const cards = Array.from(grid.children).filter(c => c.classList.contains('card'));
+      const anyVisible = cards.some(card => card.style.display !== 'none');
+      grid.style.display = anyVisible ? '' : 'none';
+      if (anyVisible && cards.some(c => c.dataset.section === 'monthly')) anyMonthlyVisible = true;
+      if (anyVisible && cards.some(c => c.dataset.section === 'weekly')) anyWeeklyVisible = true;
+      const prev = grid.previousElementSibling;
+      if (prev && prev.tagName === 'DIV' && !prev.classList.contains('section-title') && !prev.classList.contains('section-progress')) {
+        const styleAttr = prev.getAttribute('style') || '';
+        if (styleAttr.indexOf('border-left') !== -1) prev.style.display = anyVisible ? '' : 'none';
+      }
+    });
+    const sectionTitles = document.querySelectorAll('.section-title');
+    if (sectionTitles[0]) sectionTitles[0].style.display = anyMonthlyVisible ? '' : 'none';
+    if (sectionTitles[1]) sectionTitles[1].style.display = anyWeeklyVisible ? '' : 'none';
+    const monthlyProgress = document.querySelector('[data-section-progress="monthly"]');
+    if (monthlyProgress) monthlyProgress.style.display = anyMonthlyVisible ? '' : 'none';
+    const weeklyProgress = document.querySelector('[data-section-progress="weekly"]');
+    if (weeklyProgress) weeklyProgress.style.display = anyWeeklyVisible ? '' : 'none';
+
     updateProgress();
+  }
+
+  function wrapItemsWithChannelToggle() {
+    document.querySelectorAll('label.item').forEach(label => {
+      const id = label.getAttribute('for');
+      const wrapper = document.createElement('div');
+      wrapper.className = 'item-row';
+      label.parentNode.insertBefore(wrapper, label);
+      wrapper.appendChild(label);
+
+      const toggle = document.createElement('div');
+      toggle.className = 'channel-toggle';
+      toggle.innerHTML =
+        '<button type="button" class="ch-btn" data-ch="internet" title="Comprar pela internet">🌐</button>' +
+        '<button type="button" class="ch-btn" data-ch="presencial" title="Comprar presencialmente">🏬</button>';
+      wrapper.appendChild(toggle);
+
+      toggle.querySelectorAll('.ch-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const overrides = getChannelOverrides();
+          overrides[id] = btn.dataset.ch;
+          saveChannelOverrides(overrides);
+          updateChannelButtonStates();
+          applyTabFilter();
+          setSyncStatus('🔄 Salvando...', 'info');
+          pushRemoteState({ checked: getChecked(), channel: getChannelOverrides() });
+        });
+      });
+    });
+  }
+
+  window.resetChannels = function() {
+    if (!confirm('Redefinir a divisão internet/presencial para o padrão em todos os itens?')) return;
+    saveChannelOverrides({});
+    updateChannelButtonStates();
+    applyTabFilter();
+    setSyncStatus('🔄 Salvando...', 'info');
+    pushRemoteState({ checked: getChecked(), channel: {} });
+  };
+
+  window.selectTab = function(tab) {
+    setActiveTab(tab);
+    applyTabFilter();
+  };
+
+  // ===== Sincronização remota (checked + channel num único arquivo) =====
+  function normalizeRemote(raw) {
+    if (raw && typeof raw === 'object' && ('checked' in raw || 'channel' in raw)) {
+      return { checked: raw.checked || {}, channel: raw.channel || {} };
+    }
+    return { checked: raw || {}, channel: {} }; // formato antigo (só checked)
   }
 
   async function fetchRemoteState() {
@@ -1087,11 +1296,11 @@
     if (token) headers['Authorization'] = 'Bearer ' + token;
     try {
       const res = await fetch(API_URL + '?ref=' + GITHUB_BRANCH, { headers, cache: 'no-store' });
-      if (res.status === 404) { currentSha = null; return {}; }
+      if (res.status === 404) { currentSha = null; return { checked: {}, channel: {} }; }
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       currentSha = data.sha;
-      return JSON.parse(b64DecodeUnicode(data.content.replace(/\n/g, '')));
+      return normalizeRemote(JSON.parse(b64DecodeUnicode(data.content.replace(/\n/g, ''))));
     } catch (err) {
       console.warn('Falha ao buscar estado compartilhado:', err);
       return null;
@@ -1115,7 +1324,12 @@
       });
       if (res.status === 409 || res.status === 422) {
         const remote = await fetchRemoteState();
-        if (remote) return pushRemoteState(Object.assign({}, remote, state));
+        if (remote) {
+          return pushRemoteState({
+            checked: Object.assign({}, remote.checked, state.checked),
+            channel: Object.assign({}, remote.channel, state.channel),
+          });
+        }
         setSyncStatus('⚠️ Conflito ao sincronizar, tente novamente', 'warn');
         return false;
       }
@@ -1141,10 +1355,21 @@
       setSyncStatus(getToken() ? '⚠️ Não foi possível buscar a lista compartilhada' : '⚠️ Sem token configurado — clique em "Configurar token"', 'warn');
       return;
     }
-    const local = getChecked();
-    if (JSON.stringify(remote) !== JSON.stringify(local)) {
-      saveChecked(remote);
+    const localChecked = getChecked();
+    const localChannel = getChannelOverrides();
+    let changed = false;
+    if (JSON.stringify(remote.checked) !== JSON.stringify(localChecked)) {
+      saveChecked(remote.checked);
+      changed = true;
+    }
+    if (JSON.stringify(remote.channel) !== JSON.stringify(localChannel)) {
+      saveChannelOverrides(remote.channel);
+      changed = true;
+    }
+    if (changed) {
       applyState();
+      updateChannelButtonStates();
+      applyTabFilter();
     }
     setSyncStatus(getToken() ? '✅ Sincronizado com o GitHub' : 'ℹ️ Lendo lista compartilhada (configure um token para marcar itens)', getToken() ? 'ok' : 'info');
   }
@@ -1166,7 +1391,7 @@
     e.target.closest('.item').classList.toggle('checked', e.target.checked);
     updateProgress();
     setSyncStatus('🔄 Salvando...', 'info');
-    pushRemoteState(state);
+    pushRemoteState({ checked: state, channel: getChannelOverrides() });
   });
 
   window.resetAll = function() {
@@ -1174,11 +1399,15 @@
     const empty = {};
     saveChecked(empty);
     applyState();
+    updateProgress();
     setSyncStatus('🔄 Salvando...', 'info');
-    pushRemoteState(empty);
+    pushRemoteState({ checked: empty, channel: getChannelOverrides() });
   };
 
+  wrapItemsWithChannelToggle();
   applyState();
+  updateChannelButtonStates();
+  applyTabFilter();
   syncFromRemote();
   setInterval(syncFromRemote, 15000);
   document.addEventListener('visibilitychange', function() {
