@@ -32,7 +32,8 @@
     "mensal-carboidratos-1": true,
     "mensal-carboidratos-2": true,
     "mensal-carboidratos-4": true,
-    "mensal-carboidratos-5": true
+    "mensal-carboidratos-5": true,
+    "mensal-carboidratos-6": true
   },
   "channel": {
     "m-1": "internet",
@@ -88,7 +89,8 @@
     "mensal-carboidratos-1": "presencial",
     "mensal-carboidratos-2": "presencial",
     "mensal-carboidratos-4": "presencial",
-    "mensal-carboidratos-5": "presencial"
+    "mensal-carboidratos-5": "presencial",
+    "mensal-carboidratos-6": "presencial"
   },
   "removed": [],
   "custom": []
