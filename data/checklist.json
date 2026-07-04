@@ -47,7 +47,8 @@
     "mensal-sementes-6": false,
     "semanal-proteinas-1": true,
     "semanal-proteinas-3": false,
-    "mensal-oleos-5": true
+    "mensal-oleos-5": true,
+    "semanal-proteinas-4": true
   },
   "channel": {
     "m-1": "internet",
