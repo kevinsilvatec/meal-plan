@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preparo Semanal — Guia para a Personal Chef</title>
+<style>
+  .back-nav { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 600; color: #2d6a4f; text-decoration: none; margin-bottom: 16px; }
+  .back-nav:hover { text-decoration: underline; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f5f4f0;
+    color: #2d2d2d;
+    padding: 32px 24px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  header { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 3px solid #2d6a4f; }
+  header h1 { font-size: 1.8rem; font-weight: 700; color: #1b4332; margin-bottom: 6px; }
+  header p { color: #555; font-size: 0.95rem; line-height: 1.6; }
+  .tag { display: inline-block; background: #d8f3dc; color: #1b4332; font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-right: 6px; margin-top: 8px; }
+  .tag.blue { background: #dbeafe; color: #1e3a5f; }
+  .tag.orange { background: #ffedd5; color: #7c2d12; }
+
+  .note-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 16px 20px; margin: 20px 0; font-size: 0.9rem; color: #78350f; line-height: 1.7; }
+  .note-box strong { display: block; margin-bottom: 6px; font-size: 0.95rem; }
+
+  .section-title { display: flex; align-items: center; gap: 12px; margin: 40px 0 18px; }
+  .section-title .badge { background: #2d6a4f; color: white; padding: 6px 18px; border-radius: 30px; font-size: 1rem; font-weight: 700; white-space: nowrap; }
+  .section-title hr { flex: 1; border: none; border-top: 2px solid #ccc; }
+  .section-title p { color: #666; font-size: 0.85rem; white-space: nowrap; }
+
+  .table-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); background: white; }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 0.86rem; }
+  table th { background: #f1f5f9; color: #475569; padding: 10px 12px; text-align: left; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 2px solid #e2e8f0; }
+  table td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; vertical-align: top; line-height: 1.5; }
+  table tr:last-child td { border-bottom: none; }
+  table td.opt-name { font-weight: 700; color: #1f2937; }
+  table td small { display: block; color: #888; font-size: 0.75rem; margin-top: 2px; }
+  .chip { display: inline-block; background: #f0fdf4; color: #14532d; padding: 2px 8px; border-radius: 8px; font-size: 0.78rem; margin: 1px 3px 1px 0; white-space: nowrap; }
+  .chip.carb { background: #fff7ed; color: #7c2d12; }
+  .chip.veg { background: #eff6ff; color: #1e3a5f; }
+  .chip.arroz { background: #fdf4ff; color: #6b21a8; }
+
+  /* Calculator */
+  .calc-card { background: white; border-radius: 16px; padding: 22px 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin-bottom: 20px; }
+  .presets { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .preset-btn { background: #f0fdf4; border: 1px solid #86efac; color: #14532d; font-size: 0.82rem; font-weight: 600; padding: 8px 16px; border-radius: 20px; cursor: pointer; }
+  .preset-btn:hover { background: #dcfce7; }
+  .day-grid { display: grid; grid-template-columns: 90px 1fr 1fr; gap: 10px 16px; align-items: center; margin-bottom: 8px; }
+  .day-grid.header-row { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #888; letter-spacing: 0.04em; padding-bottom: 4px; border-bottom: 2px solid #eee; margin-bottom: 10px; }
+  .day-label { font-weight: 700; color: #1b4332; font-size: 0.9rem; }
+  select { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 0.84rem; background: white; }
+  .arroz-toggle { display: flex; align-items: center; gap: 6px; font-size: 0.76rem; color: #6b21a8; margin-top: 4px; }
+  .arroz-toggle input { accent-color: #a855f7; }
+
+  .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 24px; }
+  .result-card { background: #f9faf9; border-radius: 12px; padding: 16px 18px; border-top: 4px solid #2d6a4f; }
+  .result-card h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: #888; margin-bottom: 10px; }
+  .result-row { display: flex; justify-content: space-between; font-size: 0.88rem; padding: 4px 0; border-bottom: 1px dashed #e5e5e5; }
+  .result-row:last-child { border-bottom: none; }
+  .result-row .qty { font-weight: 700; color: #2d6a4f; }
+  .result-row.empty { color: #bbb; font-style: italic; }
+
+  .daily-plan { margin-top: 28px; }
+  .daily-plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .day-card { background: white; border-radius: 12px; padding: 14px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .day-card h5 { color: #1b4332; font-size: 0.9rem; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid #f0f0f0; }
+  .day-card .meal-block { margin-bottom: 10px; }
+  .day-card .meal-block:last-child { margin-bottom: 0; }
+  .day-card .meal-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #999; letter-spacing: 0.03em; margin-bottom: 4px; }
+  .day-card .meal-content { font-size: 0.84rem; color: #333; line-height: 1.5; }
+  .day-card .meal-content .em-casa { color: #a855f7; font-size: 0.78rem; font-style: italic; display: block; margin-top: 3px; }
+
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 0.82rem; color: #999; text-align: center; }
+
+  @media print {
+    body { padding: 16px; background: white; }
+    .calc-card, .table-wrap, .day-card { box-shadow: none; border: 1px solid #ddd; }
+    .presets { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<a class="back-nav" href="index.html">← Início</a>
+<header>
+  <h1>👨‍🍳 Preparo Semanal — Guia para a Personal Chef</h1>
+  <p>Insumos para os 5 almoços e os 5 jantares de segunda a sexta · Jessica &amp; Kevin</p>
+  <div>
+    <span class="tag">1x por semana</span>
+    <span class="tag blue">Almoço: pronto para esquentar</span>
+    <span class="tag orange">Jantar: recheios e proteínas prontos — montagem em casa</span>
+  </div>
+</header>
+
+<div class="note-box">
+  <strong>📋 Como funciona esse preparo</strong>
+  A chef cozinha <b>uma vez por semana</b> e prepara: (1) os <b>5 almoços completos</b> de segunda a sexta, prontos para o casal apenas esquentar, e (2) os <b>componentes cozidos dos 5 jantares</b> — proteínas (frango grelhado ou desfiado, patinho desfiado) e recheios prontos (ex: frango desfiado + espinafre refogado para a crepioca, frango desfiado para o wrap). A chef <b>não monta</b> wraps, crepiocas/tapiocas nem saladas — isso o casal faz em casa no dia, rápido, usando a matéria-prima entregue.<br><br>
+  Como o almoço tem 6 opções possíveis e o jantar 4, a quantidade exata de cada proteína/carboidrato depende de <b>quais opções forem escolhidas</b> para aquela semana (pode repetir opções). Use a calculadora abaixo para montar a semana e ver o total exato a comprar/cozinhar — inclusive comparando cenários como <i>"1kg de tilápia + 1kg de frango" OU "2kg de frango"</i>, dependendo de quantos dias de peixe ou frango forem escolhidos.
+</div>
+
+<div class="section-title">
+  <span class="badge">📖 Ficha Técnica — Almoço (6 opções)</span>
+  <hr>
+  <p>Quantidades por pessoa · dobre para o casal</p>
+</div>
+<div class="table-wrap">
+  <table id="tbl-almoco">
+    <thead><tr><th>Opção</th><th>Proteína</th><th>Carboidrato</th><th>Vegetais</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="section-title">
+  <span class="badge" style="background:#e76f51;">📖 Ficha Técnica — Jantar (4 opções)</span>
+  <hr>
+  <p>O que a chef entrega pronto × o que o casal monta em casa</p>
+</div>
+<div class="table-wrap">
+  <table id="tbl-jantar">
+    <thead><tr><th>Opção</th><th>A chef prepara e entrega</th><th>O casal monta em casa (no dia)</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div class="section-title">
+  <span class="badge" style="background:#1e293b;">🧮 Calculadora da Semana</span>
+  <hr>
+  <p>Escolha as opções de cada dia e veja o total exato a preparar</p>
+</div>
+
+<div class="calc-card">
+  <div class="presets">
+    <button class="preset-btn" onclick="applyPreset('variada')">🍽️ Semana Variada</button>
+    <button class="preset-btn" onclick="applyPreset('peixe')">🐟 Mais Peixe</button>
+    <button class="preset-btn" onclick="applyPreset('frango')">🍗 Só Frango</button>
+    <button class="preset-btn" onclick="applyPreset('patinho')">🥩 Com Mais Carne</button>
+  </div>
+
+  <div class="day-grid header-row">
+    <div>Dia</div><div>Almoço</div><div>Jantar (insumo)</div>
+  </div>
+  <div id="day-selectors"></div>
+
+  <div class="results-grid" id="results-grid"></div>
+</div>
+
+<div class="section-title" style="margin-top:40px;">
+  <span class="badge" style="background:#3b82f6;">📦 Plano de Entrega por Dia</span>
+  <hr>
+  <p>O que separar em cada marmita/kit, dia a dia</p>
+</div>
+<div class="daily-plan">
+  <div class="daily-plan-grid" id="daily-plan-grid"></div>
+</div>
+
+<footer>
+  Guia de preparo separado da lista de compras e do cardápio geral · quantidades calculadas para 2 pessoas (Jessica + Kevin)
+</footer>
+
+<script>
+// ===== DATA =====
+const PROTEIN_LABELS = {
+  frango_grelhar: "Peito de frango (grelhar)",
+  frango_desfiar: "Peito de frango (cozinhar e desfiar)",
+  peixe: "Tilápia, cação ou pintado",
+  patinho_moido: "Patinho moído",
+  patinho_desfiar: "Patinho em pedaços (cozinhar e desfiar)",
+};
+const CARB_LABELS = {
+  batata_doce: "Batata doce",
+  mandioca: "Mandioca",
+  mandioquinha: "Mandioquinha",
+  inhame: "Inhame",
+  arroz: "Arroz branco cozido",
+  lentilha: "Lentilha cozida",
+};
+
+const ALMOCO_OPTIONS = [
+  { id: 1, name: "Frango Grelhado + Batata Doce + Legumes",
+    protein: { type: "frango_grelhar", qty: 200 },
+    carb: { type: "batata_doce", qty: 300, arrozQty: 250 },
+    veggies: [{ name: "Brócolis e couve-flor", qty: 200 }, { name: "Cenoura", qty: 100 }] },
+  { id: 2, name: "Peixe Branco + Lentilha + Couve",
+    protein: { type: "peixe", qty: 180 },
+    carb: { type: "batata_doce", qty: 250, arrozQty: 250 },
+    extraCarb: { type: "lentilha", qty: 150 },
+    veggies: [{ name: "Couve refogada", qty: 100 }] },
+  { id: 3, name: "Patinho Moído + Abóbora",
+    protein: { type: "patinho_moido", qty: 180 },
+    carb: { type: "mandioca", qty: 250, arrozQty: 250 },
+    veggies: [{ name: "Abóbora cabotiá", qty: 300 }, { name: "Agrião", qty: 50 }, { name: "Rabanete", qty: 50 }] },
+  { id: 4, name: "Frango + Mandioca + Legumes",
+    protein: { type: "frango_grelhar", qty: 190 },
+    carb: { type: "mandioca", qty: 200, arrozQty: 200 },
+    veggies: [{ name: "Brócolis", qty: 150 }, { name: "Cenoura", qty: 100 }] },
+  { id: 5, name: "Peixe Assado + Lentilha + Mandioquinha",
+    protein: { type: "peixe", qty: 180 },
+    carb: { type: "mandioquinha", qty: 200, arrozQty: 200 },
+    extraCarb: { type: "lentilha", qty: 150 },
+    veggies: [{ name: "Couve refogada", qty: 100 }] },
+  { id: 6, name: "Frango c/ Cúrcuma + Inhame",
+    protein: { type: "frango_grelhar", qty: 180 },
+    carb: { type: "inhame", qty: 200, arrozQty: 200 },
+    veggies: [{ name: "Couve refogada", qty: 100 }, { name: "Cenoura", qty: 100 }] },
+];
+
+const JANTAR_OPTIONS = [
+  { id: 1, name: "Crepioca: Recheio de Frango Desfiado + Espinafre",
+    chefProtein: { type: "frango_desfiar", qty: 150 },
+    chefExtra: [{ name: "Espinafre refogado", qty: 60 }, { name: "Alho", qty: 3 }],
+    emCasa: "Bater ovos + massa de tapioca e montar a crepioca com o recheio pronto" },
+  { id: 2, name: "Wrap: Frango Desfiado + Ricota",
+    chefProtein: { type: "frango_desfiar", qty: 150 },
+    chefExtra: [{ name: "Ricota fresca (porcionar, sem cozinhar)", qty: 50 }],
+    emCasa: "Montar o wrap com pão integral, recheio e salada fresca (alface, tomate, pepino)" },
+  { id: 3, name: "Patinho Desfiado + Salada",
+    chefProtein: { type: "patinho_desfiar", qty: 120 },
+    chefCarb: { type: "batata_doce", qty: 150 },
+    emCasa: "Montar salada fresca (alface, rúcula, tomate, pepino) e servir com azeite" },
+  { id: 4, name: "Frango Grelhado + Salada + Raiz",
+    chefProtein: { type: "frango_grelhar", qty: 180 },
+    chefCarb: { type: "inhame", qty: 150 },
+    emCasa: "Montar salada fresca (alface, rúcula, tomate, pepino) com azeite e limão" },
+];
+
+const DAYS = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"];
+
+const PRESETS = {
+  variada: { almoco: [1, 2, 3, 4, 5], jantar: [1, 2, 3, 4, 1], arroz: [false, false, false, false, false] },
+  peixe:   { almoco: [2, 5, 2, 5, 2], jantar: [2, 1, 2, 1, 3], arroz: [false, false, false, false, false] },
+  frango:  { almoco: [1, 4, 6, 1, 4], jantar: [1, 4, 2, 1, 4], arroz: [true, false, true, false, true] },
+  patinho: { almoco: [3, 1, 3, 2, 4], jantar: [3, 1, 3, 2, 1], arroz: [false, false, false, false, false] },
+};
+
+let state = JSON.parse(JSON.stringify(PRESETS.variada));
+
+// ===== RENDER STATIC FICHAS =====
+function fmtCarb(opt) {
+  let s = `<span class="chip carb">${CARB_LABELS[opt.carb.type]}: ${opt.carb.qty}g</span>`;
+  if (opt.carb.arrozQty) s += `<span class="chip arroz">ou Arroz: ${opt.carb.arrozQty}g</span>`;
+  if (opt.extraCarb) s += `<span class="chip carb">${CARB_LABELS[opt.extraCarb.type]}: ${opt.extraCarb.qty}g</span>`;
+  return s;
+}
+
+function renderFichaAlmoco() {
+  const tbody = document.querySelector("#tbl-almoco tbody");
+  tbody.innerHTML = ALMOCO_OPTIONS.map(o => `
+    <tr>
+      <td class="opt-name">Opção ${o.id}<br><small>${o.name}</small></td>
+      <td><span class="chip">${PROTEIN_LABELS[o.protein.type]}: ${o.protein.qty}g</span></td>
+      <td>${fmtCarb(o)}</td>
+      <td>${o.veggies.map(v => `<span class="chip veg">${v.name}: ${v.qty}g</span>`).join(" ")}</td>
+    </tr>`).join("");
+}
+
+function renderFichaJantar() {
+  const tbody = document.querySelector("#tbl-jantar tbody");
+  tbody.innerHTML = JANTAR_OPTIONS.map(o => {
+    let chefParts = [`<span class="chip">${PROTEIN_LABELS[o.chefProtein.type]}: ${o.chefProtein.qty}g</span>`];
+    if (o.chefCarb) chefParts.push(`<span class="chip carb">${CARB_LABELS[o.chefCarb.type]}: ${o.chefCarb.qty}g</span>`);
+    if (o.chefExtra) o.chefExtra.forEach(e => chefParts.push(`<span class="chip veg">${e.name}: ${e.qty}g</span>`));
+    return `
+    <tr>
+      <td class="opt-name">Opção ${o.id}<br><small>${o.name}</small></td>
+      <td>${chefParts.join(" ")}</td>
+      <td>${o.emCasa}</td>
+    </tr>`;
+  }).join("");
+}
+
+// ===== CALCULATOR =====
+function renderDaySelectors() {
+  const container = document.getElementById("day-selectors");
+  container.innerHTML = DAYS.map((day, i) => `
+    <div class="day-grid">
+      <div class="day-label">${day}</div>
+      <div>
+        <select data-day="${i}" data-meal="almoco" onchange="onSelectChange(event)">
+          ${ALMOCO_OPTIONS.map(o => `<option value="${o.id}" ${state.almoco[i] === o.id ? "selected" : ""}>Opção ${o.id} — ${o.name}</option>`).join("")}
+        </select>
+        <label class="arroz-toggle">
+          <input type="checkbox" data-day="${i}" ${state.arroz[i] ? "checked" : ""} onchange="onArrozChange(event)"> Usar arroz no lugar da raiz
+        </label>
+      </div>
+      <div>
+        <select data-day="${i}" data-meal="jantar" onchange="onSelectChange(event)">
+          ${JANTAR_OPTIONS.map(o => `<option value="${o.id}" ${state.jantar[i] === o.id ? "selected" : ""}>Opção ${o.id} — ${o.name}</option>`).join("")}
+        </select>
+      </div>
+    </div>`).join("");
+}
+
+function onSelectChange(e) {
+  const day = parseInt(e.target.dataset.day, 10);
+  const meal = e.target.dataset.meal;
+  state[meal][day] = parseInt(e.target.value, 10);
+  renderResults();
+  renderDailyPlan();
+}
+function onArrozChange(e) {
+  const day = parseInt(e.target.dataset.day, 10);
+  state.arroz[day] = e.target.checked;
+  renderResults();
+  renderDailyPlan();
+}
+
+function applyPreset(name) {
+  state = JSON.parse(JSON.stringify(PRESETS[name]));
+  renderDaySelectors();
+  renderResults();
+  renderDailyPlan();
+}
+
+function computeTotals() {
+  const proteinTotals = {};
+  const carbTotals = {};
+  const veggieTotals = {};
+  const PEOPLE = 2;
+
+  DAYS.forEach((_, i) => {
+    const almocoOpt = ALMOCO_OPTIONS.find(o => o.id === state.almoco[i]);
+    const jantarOpt = JANTAR_OPTIONS.find(o => o.id === state.jantar[i]);
+    const useArroz = state.arroz[i];
+
+    // Almoço protein
+    proteinTotals[almocoOpt.protein.type] = (proteinTotals[almocoOpt.protein.type] || 0) + almocoOpt.protein.qty * PEOPLE;
+    // Almoço carb
+    if (useArroz && almocoOpt.carb.arrozQty) {
+      carbTotals["arroz"] = (carbTotals["arroz"] || 0) + almocoOpt.carb.arrozQty * PEOPLE;
+    } else {
+      carbTotals[almocoOpt.carb.type] = (carbTotals[almocoOpt.carb.type] || 0) + almocoOpt.carb.qty * PEOPLE;
+    }
+    if (almocoOpt.extraCarb) {
+      carbTotals[almocoOpt.extraCarb.type] = (carbTotals[almocoOpt.extraCarb.type] || 0) + almocoOpt.extraCarb.qty * PEOPLE;
+    }
+    // Almoço veggies
+    almocoOpt.veggies.forEach(v => {
+      veggieTotals[v.name] = (veggieTotals[v.name] || 0) + v.qty * PEOPLE;
+    });
+
+    // Jantar protein
+    proteinTotals[jantarOpt.chefProtein.type] = (proteinTotals[jantarOpt.chefProtein.type] || 0) + jantarOpt.chefProtein.qty * PEOPLE;
+    // Jantar carb
+    if (jantarOpt.chefCarb) {
+      carbTotals[jantarOpt.chefCarb.type] = (carbTotals[jantarOpt.chefCarb.type] || 0) + jantarOpt.chefCarb.qty * PEOPLE;
+    }
+    // Jantar extras (treated as veggie/extra bucket)
+    if (jantarOpt.chefExtra) {
+      jantarOpt.chefExtra.forEach(e => {
+        veggieTotals[e.name] = (veggieTotals[e.name] || 0) + e.qty * PEOPLE;
+      });
+    }
+  });
+
+  return { proteinTotals, carbTotals, veggieTotals };
+}
+
+function fmtQty(grams) {
+  if (grams >= 1000) return (grams / 1000).toFixed(2).replace(/\.00$/, "").replace(".", ",") + " kg";
+  return Math.round(grams) + " g";
+}
+
+function renderResults() {
+  const { proteinTotals, carbTotals, veggieTotals } = computeTotals();
+  const grid = document.getElementById("results-grid");
+
+  const proteinRows = Object.keys(PROTEIN_LABELS).map(key => {
+    const val = proteinTotals[key] || 0;
+    if (!val) return "";
+    return `<div class="result-row"><span>${PROTEIN_LABELS[key]}</span><span class="qty">${fmtQty(val)}</span></div>`;
+  }).join("") || `<div class="result-row empty">Nenhuma proteína selecionada</div>`;
+
+  const carbRows = Object.keys(CARB_LABELS).map(key => {
+    const val = carbTotals[key] || 0;
+    if (!val) return "";
+    return `<div class="result-row"><span>${CARB_LABELS[key]}</span><span class="qty">${fmtQty(val)}</span></div>`;
+  }).join("") || `<div class="result-row empty">Nenhum carboidrato selecionado</div>`;
+
+  const veggieRows = Object.keys(veggieTotals).map(key => {
+    return `<div class="result-row"><span>${key}</span><span class="qty">${fmtQty(veggieTotals[key])}</span></div>`;
+  }).join("") || `<div class="result-row empty">—</div>`;
+
+  grid.innerHTML = `
+    <div class="result-card">
+      <h4>🥩 Proteínas a cozinhar (semana)</h4>
+      ${proteinRows}
+    </div>
+    <div class="result-card" style="border-top-color:#e76f51;">
+      <h4>🍠 Carboidratos a cozinhar (semana)</h4>
+      ${carbRows}
+    </div>
+    <div class="result-card" style="border-top-color:#3b82f6;">
+      <h4>🥦 Vegetais e outros itens a preparar (semana)</h4>
+      ${veggieRows}
+    </div>
+  `;
+}
+
+function renderDailyPlan() {
+  const grid = document.getElementById("daily-plan-grid");
+  grid.innerHTML = DAYS.map((day, i) => {
+    const almocoOpt = ALMOCO_OPTIONS.find(o => o.id === state.almoco[i]);
+    const jantarOpt = JANTAR_OPTIONS.find(o => o.id === state.jantar[i]);
+    const useArroz = state.arroz[i];
+    const carbLabel = useArroz && almocoOpt.carb.arrozQty
+      ? `Arroz branco: ${almocoOpt.carb.arrozQty * 2}g`
+      : `${CARB_LABELS[almocoOpt.carb.type]}: ${almocoOpt.carb.qty * 2}g`;
+    const extraCarbLabel = almocoOpt.extraCarb ? ` + ${CARB_LABELS[almocoOpt.extraCarb.type]}: ${almocoOpt.extraCarb.qty * 2}g` : "";
+    const veggieLabel = almocoOpt.veggies.map(v => `${v.name} ${v.qty * 2}g`).join(", ");
+
+    let jantarChef = `${PROTEIN_LABELS[jantarOpt.chefProtein.type]}: ${jantarOpt.chefProtein.qty * 2}g`;
+    if (jantarOpt.chefCarb) jantarChef += ` + ${CARB_LABELS[jantarOpt.chefCarb.type]}: ${jantarOpt.chefCarb.qty * 2}g`;
+    if (jantarOpt.chefExtra) jantarChef += " + " + jantarOpt.chefExtra.map(e => `${e.name} ${e.qty * 2}g`).join(" + ");
+
+    return `
+    <div class="day-card">
+      <h5>${day}</h5>
+      <div class="meal-block">
+        <div class="meal-label">🍽️ Almoço — pronto</div>
+        <div class="meal-content">${PROTEIN_LABELS[almocoOpt.protein.type]}: ${almocoOpt.protein.qty * 2}g<br>${carbLabel}${extraCarbLabel}<br>${veggieLabel}</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label">🌙 Jantar — insumo entregue</div>
+        <div class="meal-content">${jantarChef}<span class="em-casa">Em casa: ${jantarOpt.emCasa}</span></div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+// ===== INIT =====
+renderFichaAlmoco();
+renderFichaJantar();
+renderDaySelectors();
+renderResults();
+renderDailyPlan();
+
+</script>
+</body>
+</html>
