@@ -49,6 +49,20 @@
   .tab-btn[data-tab="internet"].active { background: #3b82f6; border-color: #3b82f6; }
   .tab-btn[data-tab="presencial"].active { background: #e76f51; border-color: #e76f51; }
   .reset-channels-link { background: none; border: none; color: #999; font-size: 0.74rem; text-decoration: underline; cursor: pointer; padding: 0; margin-left: auto; align-self: center; }
+  .add-item-bar { display: flex; justify-content: flex-end; margin: 4px 0 16px; }
+  .add-item-btn { background: #2d6a4f; color: white; border: none; font-size: 0.84rem; font-weight: 600; padding: 8px 16px; border-radius: 20px; cursor: pointer; }
+  .add-item-btn:hover { background: #1b4332; }
+  .add-item-panel { background: white; border: 1px solid #d8f3dc; border-radius: 14px; padding: 18px 20px; margin: -8px 0 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .add-item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .add-item-grid label { display: flex; flex-direction: column; font-size: 0.78rem; font-weight: 600; color: #555; gap: 4px; }
+  .add-item-grid input, .add-item-grid select { padding: 8px 10px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 0.86rem; font-weight: 400; color: #222; }
+  .add-item-actions { display: flex; gap: 10px; margin-top: 14px; }
+  .add-item-submit { background: #2d6a4f; color: white; border: none; font-size: 0.84rem; font-weight: 600; padding: 8px 18px; border-radius: 20px; cursor: pointer; }
+  .add-item-submit:hover { background: #1b4332; }
+  .add-item-cancel { background: white; color: #666; border: 1px solid #d1d5db; font-size: 0.84rem; padding: 8px 16px; border-radius: 20px; cursor: pointer; }
+  .ch-btn.del-btn { color: #b91c1c; }
+  .ch-btn.del-btn:hover { background: #fef2f2; border-color: #fca5a5; opacity: 1; }
+  .restore-removed-link { background: none; border: none; color: #999; font-size: 0.74rem; text-decoration: underline; cursor: pointer; padding: 0; }
 
   .section-title { display: flex; align-items: center; gap: 12px; margin: 36px 0 16px; }
   .section-title .badge { background: #2d6a4f; color: white; padding: 6px 18px; border-radius: 30px; font-size: 1rem; font-weight: 700; white-space: nowrap; }
@@ -138,6 +152,11 @@
     .reset-channels-link { flex-basis: 100%; text-align: center; margin-left: 0; margin-top: 4px; }
     .ch-btn { width: 26px; height: 26px; font-size: 0.8rem; }
     .item { padding: 9px 2px; gap: 8px; }
+    .add-item-grid { grid-template-columns: 1fr 1fr; }
+    .add-item-bar { justify-content: stretch; }
+    .add-item-btn { width: 100%; }
+    .add-item-actions { flex-direction: column; }
+    .add-item-submit, .add-item-cancel { width: 100%; }
   }
 </style>
 </head>
@@ -161,6 +180,7 @@
     <button class="tab-btn" data-tab="internet" onclick="selectTab('internet')">🌐 Internet</button>
     <button class="tab-btn" data-tab="presencial" onclick="selectTab('presencial')">🏬 Presencial</button>
     <button class="reset-channels-link" onclick="resetChannels()">redefinir divisão</button>
+    <button class="restore-removed-link" onclick="restoreRemoved()">restaurar itens removidos</button>
   </div>
   <div class="progress-label">
     <span><strong id="progress-count">0</strong> de <span id="progress-total">0</span> itens comprados</span>
@@ -170,6 +190,42 @@
   <div class="sync-row">
     <span id="sync-status" class="sync-status">🔄 Carregando lista compartilhada...</span>
     <button class="token-btn" onclick="configurarToken()">🔑 Configurar token do GitHub</button>
+  </div>
+</div>
+
+<div class="add-item-bar">
+  <button class="add-item-btn" onclick="toggleAddForm()">➕ Adicionar item</button>
+</div>
+<div class="add-item-panel" id="add-item-panel" style="display:none;">
+  <div class="add-item-grid">
+    <label>Nome
+      <input type="text" id="add-name" placeholder="Ex: Papel toalha">
+    </label>
+    <label>Quantidade
+      <input type="text" id="add-qty" placeholder="Ex: 2 unid./mês">
+    </label>
+    <label>Observação (opcional)
+      <input type="text" id="add-note" placeholder="Ex: para a cozinha">
+    </label>
+    <label>Seção
+      <select id="add-section" onchange="populateTypeOptions()">
+        <option value="mensal">Mensal</option>
+        <option value="semanal">Semanal</option>
+      </select>
+    </label>
+    <label>Categoria
+      <select id="add-type"></select>
+    </label>
+    <label>Comprar
+      <select id="add-channel">
+        <option value="internet">🌐 Internet</option>
+        <option value="presencial">🏬 Presencial</option>
+      </select>
+    </label>
+  </div>
+  <div class="add-item-actions">
+    <button class="add-item-submit" onclick="submitAddItem()">Adicionar</button>
+    <button class="add-item-cancel" onclick="toggleAddForm(false)">Cancelar</button>
   </div>
 </div>
 
@@ -186,7 +242,7 @@
 <div class="section-progress" data-section-progress="mensal"></div>
 
 <div class="grid">
-  <div class="card" data-section="mensal">
+  <div class="card" data-section="mensal" data-type="suplementos">
     <h3>💊 Suplementos &amp; Funcionais</h3>
     <label class="item" for="mensal-suplementos-1">
       <input type="checkbox" id="mensal-suplementos-1" class="chk" data-id="mensal-suplementos-1">
@@ -245,7 +301,7 @@
       </span>
     </label>
   </div>
-  <div class="card" data-section="mensal">
+  <div class="card" data-section="mensal" data-type="carboidratos">
     <h3>🍠 Carboidratos &amp; Grãos</h3>
     <label class="item" for="mensal-carboidratos-1">
       <input type="checkbox" id="mensal-carboidratos-1" class="chk" data-id="mensal-carboidratos-1">
@@ -320,7 +376,7 @@
       </span>
     </label>
   </div>
-  <div class="card" data-section="mensal">
+  <div class="card" data-section="mensal" data-type="temperos">
     <h3>🌿 Temperos, Molhos &amp; Conservas</h3>
     <label class="item" for="mensal-temperos-1">
       <input type="checkbox" id="mensal-temperos-1" class="chk" data-id="mensal-temperos-1">
@@ -419,7 +475,7 @@
       </span>
     </label>
   </div>
-  <div class="card" data-section="mensal">
+  <div class="card" data-section="mensal" data-type="oleos">
     <h3>🫒 Óleos &amp; Adoçantes</h3>
     <label class="item" for="mensal-oleos-1">
       <input type="checkbox" id="mensal-oleos-1" class="chk" data-id="mensal-oleos-1">
@@ -470,7 +526,7 @@
       </span>
     </label>
   </div>
-  <div class="card" data-section="mensal">
+  <div class="card" data-section="mensal" data-type="sementes">
     <h3>🧂 Sementes &amp; Oleaginosas</h3>
     <label class="item" for="mensal-sementes-1">
       <input type="checkbox" id="mensal-sementes-1" class="chk" data-id="mensal-sementes-1">
@@ -521,7 +577,7 @@
       </span>
     </label>
   </div>
-  <div class="card" data-section="mensal">
+  <div class="card" data-section="mensal" data-type="chas">
     <h3>🍵 Chás &amp; Bebidas</h3>
     <label class="item" for="mensal-chas-1">
       <input type="checkbox" id="mensal-chas-1" class="chk" data-id="mensal-chas-1">
@@ -572,7 +628,7 @@
       </span>
     </label>
   </div>
-  <div class="card" data-section="mensal">
+  <div class="card" data-section="mensal" data-type="proteinas">
     <h3>🥩 Proteínas (enlatadas)</h3>
     <label class="item" for="mensal-proteinas-1">
       <input type="checkbox" id="mensal-proteinas-1" class="chk" data-id="mensal-proteinas-1">
@@ -601,7 +657,7 @@
 <div class="section-progress" data-section-progress="semanal"></div>
 
 <div class="grid">
-  <div class="card" data-section="semanal">
+  <div class="card" data-section="semanal" data-type="proteinas">
     <h3>🥩 Proteínas</h3>
     <label class="item" for="semanal-proteinas-1">
       <input type="checkbox" id="semanal-proteinas-1" class="chk" data-id="semanal-proteinas-1">
@@ -644,7 +700,7 @@
       </span>
     </label>
   </div>
-  <div class="card" data-section="semanal">
+  <div class="card" data-section="semanal" data-type="laticinios">
     <h3>🥛 Laticínios</h3>
     <label class="item" for="semanal-laticinios-1">
       <input type="checkbox" id="semanal-laticinios-1" class="chk" data-id="semanal-laticinios-1">
@@ -679,7 +735,7 @@
       </span>
     </label>
   </div>
-  <div class="card" data-section="semanal">
+  <div class="card" data-section="semanal" data-type="carboidratos">
     <h3>🍠 Carboidratos</h3>
     <label class="item" for="semanal-carboidratos-1">
       <input type="checkbox" id="semanal-carboidratos-1" class="chk" data-id="semanal-carboidratos-1">
@@ -714,7 +770,7 @@
       </span>
     </label>
   </div>
-  <div class="card" data-section="semanal">
+  <div class="card" data-section="semanal" data-type="legumes">
     <h3>🥦 Legumes &amp; Verduras</h3>
     <label class="item" for="semanal-legumes-1">
       <input type="checkbox" id="semanal-legumes-1" class="chk" data-id="semanal-legumes-1">
@@ -829,7 +885,7 @@
       </span>
     </label>
   </div>
-  <div class="card" data-section="semanal">
+  <div class="card" data-section="semanal" data-type="frutas">
     <h3>🍓 Frutas</h3>
     <label class="item" for="semanal-frutas-1">
       <input type="checkbox" id="semanal-frutas-1" class="chk" data-id="semanal-frutas-1">
@@ -916,6 +972,8 @@
 (function() {
   const STORAGE_KEY = 'lista-compras-jk-checked';
   const CHANNEL_KEY = 'lista-compras-jk-channel-overrides';
+  const REMOVED_KEY = 'lista-compras-jk-removed-ids';
+  const CUSTOM_KEY = 'lista-compras-jk-custom-items';
   const TAB_KEY = 'lista-compras-jk-active-tab';
 
   // Categoria padrão de cada item: itens mensais (não perecíveis) vão por
@@ -925,6 +983,26 @@
   function defaultChannelForId(id) {
     return id.indexOf('mensal-') === 0 ? 'internet' : 'presencial';
   }
+
+  // Categorias existentes, usadas no formulário de "Adicionar item"
+  const TYPE_LABELS = {
+    mensal: [
+      ['suplementos', '💊 Suplementos & Funcionais'],
+      ['carboidratos', '🍠 Carboidratos & Grãos'],
+      ['temperos', '🌿 Temperos, Molhos & Conservas'],
+      ['oleos', '🫒 Óleos & Adoçantes'],
+      ['sementes', '🧂 Sementes & Oleaginosas'],
+      ['chas', '🍵 Chás & Bebidas'],
+      ['proteinas', '🥩 Proteínas (enlatadas)'],
+    ],
+    semanal: [
+      ['proteinas', '🥩 Proteínas'],
+      ['laticinios', '🥛 Laticínios'],
+      ['carboidratos', '🍠 Carboidratos'],
+      ['legumes', '🥦 Legumes & Verduras'],
+      ['frutas', '🍓 Frutas'],
+    ],
+  };
 
   // ===== Sincronização compartilhada via GitHub =====
   const GITHUB_OWNER = 'kevinsilvatec';
@@ -962,12 +1040,35 @@
   function saveChannelOverrides(obj) {
     localStorage.setItem(CHANNEL_KEY, JSON.stringify(obj));
   }
+  function getRemovedIds() {
+    try { return JSON.parse(localStorage.getItem(REMOVED_KEY)) || []; }
+    catch (e) { return []; }
+  }
+  function saveRemovedIds(arr) {
+    localStorage.setItem(REMOVED_KEY, JSON.stringify(arr));
+  }
+  function getCustomItems() {
+    try { return JSON.parse(localStorage.getItem(CUSTOM_KEY)) || []; }
+    catch (e) { return []; }
+  }
+  function saveCustomItems(arr) {
+    localStorage.setItem(CUSTOM_KEY, JSON.stringify(arr));
+  }
   function effectiveChannel(id) {
     const overrides = getChannelOverrides();
     return overrides[id] || defaultChannelForId(id);
   }
   function getActiveTab() { return localStorage.getItem(TAB_KEY) || 'all'; }
   function setActiveTab(t) { localStorage.setItem(TAB_KEY, t); }
+
+  function currentFullState() {
+    return {
+      checked: getChecked(),
+      channel: getChannelOverrides(),
+      removed: getRemovedIds(),
+      custom: getCustomItems(),
+    };
+  }
 
   // ===== Progresso (considera só os itens visíveis na aba atual) =====
   function updateProgress() {
@@ -1001,23 +1102,28 @@
     });
   }
 
-  // ===== Abas Internet / Presencial =====
+  // ===== Abas Internet / Presencial + itens removidos =====
   function updateChannelButtonStates() {
     document.querySelectorAll('.item-row').forEach(row => {
-      const id = row.querySelector('.chk').dataset.id;
-      const ch = effectiveChannel(id);
-      row.querySelectorAll('.ch-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.ch === ch));
+      const chk = row.querySelector('.chk');
+      if (!chk) return;
+      const ch = effectiveChannel(chk.dataset.id);
+      row.querySelectorAll('.ch-btn[data-ch]').forEach(btn => btn.classList.toggle('active', btn.dataset.ch === ch));
     });
   }
 
   function applyTabFilter() {
     const tab = getActiveTab();
+    const removed = getRemovedIds();
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
 
     document.querySelectorAll('.card').forEach(card => {
       let anyVisible = false;
       card.querySelectorAll('.item-row').forEach(row => {
-        const id = row.querySelector('.chk').dataset.id;
+        const chk = row.querySelector('.chk');
+        if (!chk) return;
+        const id = chk.dataset.id;
+        if (removed.indexOf(id) !== -1) { row.style.display = 'none'; return; }
         const ch = effectiveChannel(id);
         const show = (tab === 'all') || (ch === tab);
         row.style.display = show ? '' : 'none';
@@ -1050,6 +1156,43 @@
     updateProgress();
   }
 
+  function persistAndSync() {
+    setSyncStatus('🔄 Salvando...', 'info');
+    pushRemoteState(currentFullState());
+  }
+
+  function attachRowHandlers(toggle, id, isCustom) {
+    toggle.querySelectorAll('.ch-btn[data-ch]').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const overrides = getChannelOverrides();
+        overrides[id] = btn.dataset.ch;
+        saveChannelOverrides(overrides);
+        updateChannelButtonStates();
+        applyTabFilter();
+        persistAndSync();
+      });
+    });
+    const delBtn = toggle.querySelector('.del-btn');
+    delBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!confirm('Remover este item da lista?')) return;
+      if (isCustom) {
+        saveCustomItems(getCustomItems().filter(it => it.id !== id));
+        const row = delBtn.closest('.item-row');
+        if (row) row.remove();
+      } else {
+        const removed = getRemovedIds();
+        if (removed.indexOf(id) === -1) removed.push(id);
+        saveRemovedIds(removed);
+      }
+      applyTabFilter();
+      persistAndSync();
+    });
+  }
+
   function wrapItemsWithChannelToggle() {
     document.querySelectorAll('label.item').forEach(label => {
       const id = label.getAttribute('for');
@@ -1062,22 +1205,64 @@
       toggle.className = 'channel-toggle';
       toggle.innerHTML =
         '<button type="button" class="ch-btn" data-ch="internet" title="Comprar pela internet">🌐</button>' +
-        '<button type="button" class="ch-btn" data-ch="presencial" title="Comprar presencialmente">🏬</button>';
+        '<button type="button" class="ch-btn" data-ch="presencial" title="Comprar presencialmente">🏬</button>' +
+        '<button type="button" class="ch-btn del-btn" title="Remover item">🗑️</button>';
       wrapper.appendChild(toggle);
 
-      toggle.querySelectorAll('.ch-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          const overrides = getChannelOverrides();
-          overrides[id] = btn.dataset.ch;
-          saveChannelOverrides(overrides);
-          updateChannelButtonStates();
-          applyTabFilter();
-          setSyncStatus('🔄 Salvando...', 'info');
-          pushRemoteState({ checked: getChecked(), channel: getChannelOverrides() });
-        });
-      });
+      attachRowHandlers(toggle, id, false);
+    });
+  }
+
+  function buildItemRowDom(item) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'item-row';
+    wrapper.dataset.custom = '1';
+
+    const label = document.createElement('label');
+    label.className = 'item';
+    label.setAttribute('for', item.id);
+
+    const noteHtml = item.note ? '<small></small>' : '';
+    label.innerHTML =
+      '<input type="checkbox" id="' + item.id + '" class="chk" data-id="' + item.id + '">' +
+      '<span class="box"></span>' +
+      '<span class="item-body">' +
+        '<span class="item-name"></span>' +
+        '<span class="item-qty"></span>' +
+      '</span>';
+    label.querySelector('.item-name').textContent = item.name || '';
+    if (item.note) {
+      const small = document.createElement('small');
+      small.textContent = item.note;
+      label.querySelector('.item-name').appendChild(small);
+    }
+    label.querySelector('.item-qty').textContent = item.qty || '';
+
+    wrapper.appendChild(label);
+
+    const toggle = document.createElement('div');
+    toggle.className = 'channel-toggle';
+    toggle.innerHTML =
+      '<button type="button" class="ch-btn" data-ch="internet" title="Comprar pela internet">🌐</button>' +
+      '<button type="button" class="ch-btn" data-ch="presencial" title="Comprar presencialmente">🏬</button>' +
+      '<button type="button" class="ch-btn del-btn" title="Remover item">🗑️</button>';
+    wrapper.appendChild(toggle);
+
+    attachRowHandlers(toggle, item.id, true);
+    return wrapper;
+  }
+
+  function renderCustomItems() {
+    document.querySelectorAll('.item-row[data-custom="1"]').forEach(r => r.remove());
+    getCustomItems().forEach(item => {
+      let card = document.querySelector('.card[data-section="' + item.section + '"][data-type="' + item.type + '"]');
+      if (!card) card = document.querySelector('.card[data-section="' + item.section + '"]');
+      if (!card) return;
+      card.appendChild(buildItemRowDom(item));
+      if (item.channel) {
+        const overrides = getChannelOverrides();
+        if (!overrides[item.id]) { overrides[item.id] = item.channel; saveChannelOverrides(overrides); }
+      }
     });
   }
 
@@ -1086,8 +1271,14 @@
     saveChannelOverrides({});
     updateChannelButtonStates();
     applyTabFilter();
-    setSyncStatus('🔄 Salvando...', 'info');
-    pushRemoteState({ checked: getChecked(), channel: {} });
+    persistAndSync();
+  };
+
+  window.restoreRemoved = function() {
+    if (!confirm('Restaurar todos os itens removidos?')) return;
+    saveRemovedIds([]);
+    applyTabFilter();
+    persistAndSync();
   };
 
   window.selectTab = function(tab) {
@@ -1095,12 +1286,64 @@
     applyTabFilter();
   };
 
-  // ===== Sincronização remota (checked + channel num único arquivo) =====
-  function normalizeRemote(raw) {
-    if (raw && typeof raw === 'object' && ('checked' in raw || 'channel' in raw)) {
-      return { checked: raw.checked || {}, channel: raw.channel || {} };
+  // ===== Formulário de adicionar item =====
+  window.populateTypeOptions = function() {
+    const section = document.getElementById('add-section').value;
+    const typeSelect = document.getElementById('add-type');
+    typeSelect.innerHTML = TYPE_LABELS[section].map(([key, label]) => '<option value="' + key + '">' + label + '</option>').join('');
+    document.getElementById('add-channel').value = (section === 'mensal') ? 'internet' : 'presencial';
+  };
+
+  window.toggleAddForm = function(show) {
+    const panel = document.getElementById('add-item-panel');
+    const willShow = (show === undefined) ? (panel.style.display === 'none') : show;
+    panel.style.display = willShow ? '' : 'none';
+    if (willShow) {
+      populateTypeOptions();
+      document.getElementById('add-name').value = '';
+      document.getElementById('add-qty').value = '';
+      document.getElementById('add-note').value = '';
+      document.getElementById('add-name').focus();
     }
-    return { checked: raw || {}, channel: {} }; // formato antigo (só checked)
+  };
+
+  window.submitAddItem = function() {
+    const name = document.getElementById('add-name').value.trim();
+    if (!name) { alert('Digite o nome do item.'); return; }
+    const qty = document.getElementById('add-qty').value.trim();
+    const note = document.getElementById('add-note').value.trim();
+    const section = document.getElementById('add-section').value;
+    const type = document.getElementById('add-type').value;
+    const channel = document.getElementById('add-channel').value;
+    const id = 'custom-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7);
+
+    const item = { id, name, note, qty, section, type };
+    const custom = getCustomItems();
+    custom.push(item);
+    saveCustomItems(custom);
+
+    const overrides = getChannelOverrides();
+    overrides[id] = channel;
+    saveChannelOverrides(overrides);
+
+    renderCustomItems();
+    updateChannelButtonStates();
+    applyTabFilter();
+    toggleAddForm(false);
+    persistAndSync();
+  };
+
+  // ===== Sincronização remota (checked + channel + removed + custom num único arquivo) =====
+  function normalizeRemote(raw) {
+    if (raw && typeof raw === 'object' && ('checked' in raw || 'channel' in raw || 'removed' in raw || 'custom' in raw)) {
+      return {
+        checked: raw.checked || {},
+        channel: raw.channel || {},
+        removed: raw.removed || [],
+        custom: raw.custom || [],
+      };
+    }
+    return { checked: raw || {}, channel: {}, removed: [], custom: [] }; // formato antigo
   }
 
   async function fetchRemoteState() {
@@ -1109,7 +1352,7 @@
     if (token) headers['Authorization'] = 'Bearer ' + token;
     try {
       const res = await fetch(API_URL + '?ref=' + GITHUB_BRANCH, { headers, cache: 'no-store' });
-      if (res.status === 404) { currentSha = null; return { checked: {}, channel: {} }; }
+      if (res.status === 404) { currentSha = null; return { checked: {}, channel: {}, removed: [], custom: [] }; }
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       currentSha = data.sha;
@@ -1138,9 +1381,14 @@
       if (res.status === 409 || res.status === 422) {
         const remote = await fetchRemoteState();
         if (remote) {
+          const mergedCustomIds = new Set((state.custom || []).map(it => it.id));
+          const mergedCustom = (remote.custom || []).filter(it => !mergedCustomIds.has(it.id)).concat(state.custom || []);
+          const mergedRemoved = Array.from(new Set((remote.removed || []).concat(state.removed || [])));
           return pushRemoteState({
             checked: Object.assign({}, remote.checked, state.checked),
             channel: Object.assign({}, remote.channel, state.channel),
+            removed: mergedRemoved,
+            custom: mergedCustom,
           });
         }
         setSyncStatus('⚠️ Conflito ao sincronizar, tente novamente', 'warn');
@@ -1168,18 +1416,14 @@
       setSyncStatus(getToken() ? '⚠️ Não foi possível buscar a lista compartilhada' : '⚠️ Sem token configurado — clique em "Configurar token"', 'warn');
       return;
     }
-    const localChecked = getChecked();
-    const localChannel = getChannelOverrides();
+    const local = currentFullState();
     let changed = false;
-    if (JSON.stringify(remote.checked) !== JSON.stringify(localChecked)) {
-      saveChecked(remote.checked);
-      changed = true;
-    }
-    if (JSON.stringify(remote.channel) !== JSON.stringify(localChannel)) {
-      saveChannelOverrides(remote.channel);
-      changed = true;
-    }
+    if (JSON.stringify(remote.checked) !== JSON.stringify(local.checked)) { saveChecked(remote.checked); changed = true; }
+    if (JSON.stringify(remote.channel) !== JSON.stringify(local.channel)) { saveChannelOverrides(remote.channel); changed = true; }
+    if (JSON.stringify(remote.removed) !== JSON.stringify(local.removed)) { saveRemovedIds(remote.removed); changed = true; }
+    if (JSON.stringify(remote.custom) !== JSON.stringify(local.custom)) { saveCustomItems(remote.custom); changed = true; }
     if (changed) {
+      renderCustomItems();
       applyState();
       updateChannelButtonStates();
       applyTabFilter();
@@ -1203,21 +1447,19 @@
     saveChecked(state);
     e.target.closest('.item').classList.toggle('checked', e.target.checked);
     updateProgress();
-    setSyncStatus('🔄 Salvando...', 'info');
-    pushRemoteState({ checked: state, channel: getChannelOverrides() });
+    persistAndSync();
   });
 
   window.resetAll = function() {
     if (!confirm('Desmarcar todos os itens da lista?')) return;
-    const empty = {};
-    saveChecked(empty);
+    saveChecked({});
     applyState();
     updateProgress();
-    setSyncStatus('🔄 Salvando...', 'info');
-    pushRemoteState({ checked: empty, channel: getChannelOverrides() });
+    persistAndSync();
   };
 
   wrapItemsWithChannelToggle();
+  renderCustomItems();
   applyState();
   updateChannelButtonStates();
   applyTabFilter();
