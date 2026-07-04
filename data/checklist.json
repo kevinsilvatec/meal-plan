@@ -52,7 +52,8 @@
     "semanal-proteinas-5": true,
     "semanal-laticinios-2": true,
     "semanal-laticinios-3": true,
-    "semanal-carboidratos-1": true
+    "semanal-carboidratos-1": true,
+    "semanal-legumes-1": true
   },
   "channel": {
     "m-1": "internet",
