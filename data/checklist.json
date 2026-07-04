@@ -5,7 +5,8 @@
     "m-6": false,
     "m-8": true,
     "m-9": true,
-    "m-11": true
+    "m-11": true,
+    "m-14": true
   },
   "channel": {
     "m-1": "internet",
