@@ -25,7 +25,8 @@
     "w-4": true,
     "w-6": true,
     "w-11": true,
-    "w-16": true
+    "w-16": true,
+    "w-18": true
   },
   "channel": {
     "m-1": "internet",
@@ -77,6 +78,6 @@
     "w-1": "presencial",
     "w-10": "presencial",
     "w-16": "presencial",
-    "w-18": "internet"
+    "w-18": "presencial"
   }
 }
