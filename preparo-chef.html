@@ -175,7 +175,6 @@ const CARB_LABELS = {
   mandioquinha: "Mandioquinha",
   inhame: "Inhame",
   arroz: "Arroz branco cozido",
-  lentilha: "Lentilha cozida",
 };
 
 const ALMOCO_OPTIONS = [
@@ -183,11 +182,10 @@ const ALMOCO_OPTIONS = [
     protein: { type: "frango_grelhar", qty: 200 },
     carb: { type: "batata_doce", qty: 300, arrozQty: 250 },
     veggies: [{ name: "Brócolis e couve-flor", qty: 200 }, { name: "Cenoura", qty: 100 }] },
-  { id: 2, name: "Peixe Branco + Lentilha + Couve",
+  { id: 2, name: "Peixe Branco + Couve + Batata Doce",
     protein: { type: "peixe", qty: 180 },
     carb: { type: "batata_doce", qty: 250, arrozQty: 250 },
-    extraCarb: { type: "lentilha", qty: 150 },
-    veggies: [{ name: "Couve refogada", qty: 100 }] },
+    veggies: [{ name: "Couve refogada", qty: 150 }] },
   { id: 3, name: "Patinho Moído + Abóbora",
     protein: { type: "patinho_moido", qty: 180 },
     carb: { type: "mandioca", qty: 250, arrozQty: 250 },
@@ -196,11 +194,10 @@ const ALMOCO_OPTIONS = [
     protein: { type: "frango_grelhar", qty: 190 },
     carb: { type: "mandioca", qty: 200, arrozQty: 200 },
     veggies: [{ name: "Brócolis", qty: 150 }, { name: "Cenoura", qty: 100 }] },
-  { id: 5, name: "Peixe Assado + Lentilha + Mandioquinha",
+  { id: 5, name: "Peixe Assado + Couve + Mandioquinha",
     protein: { type: "peixe", qty: 180 },
-    carb: { type: "mandioquinha", qty: 200, arrozQty: 200 },
-    extraCarb: { type: "lentilha", qty: 150 },
-    veggies: [{ name: "Couve refogada", qty: 100 }] },
+    carb: { type: "mandioquinha", qty: 250, arrozQty: 250 },
+    veggies: [{ name: "Couve refogada", qty: 150 }] },
   { id: 6, name: "Frango c/ Cúrcuma + Inhame",
     protein: { type: "frango_grelhar", qty: 180 },
     carb: { type: "inhame", qty: 200, arrozQty: 200 },
@@ -440,3 +437,4 @@ renderDailyPlan();
 </script>
 </body>
 </html>
+                                                                                                                             
