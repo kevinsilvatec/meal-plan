@@ -79,7 +79,8 @@
     "semanal-laticinios-4": true,
     "mensal-sementes-3": true,
     "mensal-oleos-3": false,
-    "mensal-oleos-4": true
+    "mensal-oleos-4": true,
+    "mensal-chas-6": true
   },
   "channel": {
     "m-1": "internet",
