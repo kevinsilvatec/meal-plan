@@ -172,17 +172,6 @@
       "qtyFreq": "/mês",
       "section": "mensal",
       "type": "suplementos"
-    },
-    {
-      "id": "custom-mr6n7ugp-mr4ws",
-      "name": "Patinho (Bife ou Tiras)",
-      "note": "",
-      "qty": "2 kg/mês",
-      "qtyValue": "2",
-      "qtyUnit": "kg",
-      "qtyFreq": "/mês",
-      "section": "mensal",
-      "type": "carboidratos"
     }
   ]
 }
