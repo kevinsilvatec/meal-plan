@@ -156,7 +156,8 @@
     "mensal-carboidratos-9": "presencial"
   },
   "removed": [
-    "mensal-suplementos-2"
+    "mensal-suplementos-2",
+    "semanal-proteinas-3"
   ],
   "custom": [
     {
