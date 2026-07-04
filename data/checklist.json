@@ -153,7 +153,8 @@
     "custom-mr6mlwye-vnv0t": "internet",
     "mensal-carboidratos-3": "presencial",
     "mensal-carboidratos-7": "presencial",
-    "mensal-carboidratos-9": "presencial"
+    "mensal-carboidratos-9": "presencial",
+    "custom-mr6n7ugp-mr4ws": "presencial"
   },
   "removed": [
     "mensal-suplementos-2",
@@ -171,6 +172,17 @@
       "qtyFreq": "/mês",
       "section": "mensal",
       "type": "suplementos"
+    },
+    {
+      "id": "custom-mr6n7ugp-mr4ws",
+      "name": "Patinho (Bife ou Tiras)",
+      "note": "",
+      "qty": "2 kg/mês",
+      "qtyValue": "2",
+      "qtyUnit": "kg",
+      "qtyFreq": "/mês",
+      "section": "mensal",
+      "type": "carboidratos"
     }
   ]
 }
