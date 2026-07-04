@@ -27,7 +27,8 @@
     "w-11": true,
     "w-16": true,
     "w-18": true,
-    "mensal-suplementos-2": false
+    "mensal-suplementos-2": false,
+    "mensal-suplementos-1": true
   },
   "channel": {
     "m-1": "internet",
