@@ -146,7 +146,9 @@
     "mensal-proteinas-2": "presencial",
     "custom-mr6mlwye-vnv0t": "internet"
   },
-  "removed": [],
+  "removed": [
+    "mensal-suplementos-2"
+  ],
   "custom": [
     {
       "id": "custom-mr6mlwye-vnv0t",
