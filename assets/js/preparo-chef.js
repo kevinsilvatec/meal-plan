@@ -69,7 +69,131 @@ const PRESETS = {
   patinho: { almoco: [3, 1, 3, 2, 4], jantar: [3, 1, 3, 2, 1], arroz: [false, false, false, false, false] },
 };
 
-let state = JSON.parse(JSON.stringify(PRESETS.variada));
+// ===== Persistência local + sincronização via GitHub =====
+const STATE_KEY = 'preparo-chef-jk-state';
+const TOKEN_KEY = 'lista-compras-jk-github-token'; // mesmo token usado na lista de compras
+const GITHUB_OWNER = 'kevinsilvatec';
+const GITHUB_REPO = 'meal-plan';
+const GITHUB_BRANCH = 'main';
+const DATA_PATH = 'data/chef-prep-state.json';
+const API_URL = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/' + DATA_PATH;
+
+let currentSha = null;
+
+function getToken() { return localStorage.getItem(TOKEN_KEY) || ''; }
+function setToken(t) { if (t) localStorage.setItem(TOKEN_KEY, t.trim()); else localStorage.removeItem(TOKEN_KEY); }
+function b64EncodeUnicode(str) { return btoa(unescape(encodeURIComponent(str))); }
+function b64DecodeUnicode(str) { return decodeURIComponent(escape(atob(str))); }
+
+function setSyncStatus(text, kind) {
+  const el = document.getElementById('chef-sync-status');
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'sync-status ' + (kind || '');
+}
+
+function saveStateLocal() {
+  localStorage.setItem(STATE_KEY, JSON.stringify(state));
+}
+function loadStateLocal() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(STATE_KEY));
+    if (raw && Array.isArray(raw.almoco) && Array.isArray(raw.jantar) && Array.isArray(raw.arroz)) return raw;
+  } catch (e) {}
+  return null;
+}
+
+function persistAndSync() {
+  saveStateLocal();
+  setSyncStatus('🔄 Salvando...', 'info');
+  pushRemoteState(state);
+}
+
+async function fetchRemoteState() {
+  const headers = { 'Accept': 'application/vnd.github+json' };
+  const token = getToken();
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  try {
+    const res = await fetch(API_URL + '?ref=' + GITHUB_BRANCH, { headers, cache: 'no-store' });
+    if (res.status === 404) { currentSha = null; return null; }
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    currentSha = data.sha;
+    const parsed = JSON.parse(b64DecodeUnicode(data.content.replace(/\n/g, '')));
+    if (parsed && Array.isArray(parsed.almoco) && Array.isArray(parsed.jantar) && Array.isArray(parsed.arroz)) return parsed;
+    return null;
+  } catch (err) {
+    console.warn('Falha ao buscar escolhas compartilhadas:', err);
+    return undefined; // undefined = erro de rede/leitura, diferente de null (arquivo inexistente)
+  }
+}
+
+async function pushRemoteState(newState) {
+  const token = getToken();
+  if (!token) { setSyncStatus('⚠️ Sem token — mudança salva só neste aparelho', 'warn'); return false; }
+  const body = {
+    message: 'Atualiza escolhas da calculadora de preparo',
+    content: b64EncodeUnicode(JSON.stringify(newState, null, 2)),
+    branch: GITHUB_BRANCH,
+  };
+  if (currentSha) body.sha = currentSha;
+  try {
+    const res = await fetch(API_URL, {
+      method: 'PUT',
+      headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (res.status === 409 || res.status === 422) {
+      const remote = await fetchRemoteState();
+      if (remote !== undefined) {
+        // conflito: a última escolha feita neste aparelho prevalece, só reaproveitamos o sha mais novo
+        return pushRemoteState(newState);
+      }
+      setSyncStatus('⚠️ Conflito ao sincronizar, tente novamente', 'warn');
+      return false;
+    }
+    if (!res.ok) {
+      console.warn('Falha ao salvar no GitHub:', res.status, await res.text());
+      setSyncStatus('⚠️ Falha ao sincronizar (token válido?)', 'warn');
+      return false;
+    }
+    const data = await res.json();
+    currentSha = data.content.sha;
+    setSyncStatus('✅ Sincronizado com o GitHub', 'ok');
+    return true;
+  } catch (err) {
+    console.warn('Erro de rede ao salvar no GitHub:', err);
+    setSyncStatus('⚠️ Sem conexão — salvo só neste aparelho', 'warn');
+    return false;
+  }
+}
+
+async function syncFromRemote() {
+  const remote = await fetchRemoteState();
+  if (remote === undefined) {
+    setSyncStatus(getToken() ? '⚠️ Não foi possível buscar as escolhas compartilhadas' : '⚠️ Sem token configurado — clique em "Configurar token"', 'warn');
+    return;
+  }
+  if (remote !== null && JSON.stringify(remote) !== JSON.stringify(state)) {
+    state = remote;
+    saveStateLocal();
+    renderDaySelectors();
+    renderResults();
+    renderDailyPlan();
+  }
+  setSyncStatus(getToken() ? '✅ Sincronizado com o GitHub' : 'ℹ️ Lendo escolhas compartilhadas (configure um token para editar)', getToken() ? 'ok' : 'info');
+}
+
+window.configurarTokenChef = function() {
+  const current = getToken();
+  const value = prompt('Cole aqui o token do GitHub (fine-grained, permissão "Contents: Read and write", restrito ao repositório ' + GITHUB_REPO + '). É o mesmo token usado na lista de compras — fica salvo só neste navegador.', current);
+  if (value === null) return;
+  setToken(value.trim());
+  setSyncStatus('🔄 Verificando token...', 'info');
+  syncFromRemote();
+};
+
+let state = loadStateLocal() || JSON.parse(JSON.stringify(PRESETS.variada));
 
 // ===== RENDER STATIC FICHAS =====
 function fmtCarb(opt) {
@@ -137,12 +261,14 @@ function onSelectChange(e) {
   state[meal][day] = parseInt(e.target.value, 10);
   renderResults();
   renderDailyPlan();
+  persistAndSync();
 }
 function onArrozChange(e) {
   const day = parseInt(e.target.dataset.day, 10);
   state.arroz[day] = e.target.checked;
   renderResults();
   renderDailyPlan();
+  persistAndSync();
 }
 
 function applyPreset(name) {
@@ -150,6 +276,7 @@ function applyPreset(name) {
   renderDaySelectors();
   renderResults();
   renderDailyPlan();
+  persistAndSync();
 }
 
 function computeTotals() {
@@ -283,3 +410,8 @@ renderFichaJantar();
 renderDaySelectors();
 renderResults();
 renderDailyPlan();
+syncFromRemote();
+setInterval(syncFromRemote, 15000);
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden) syncFromRemote();
+});
