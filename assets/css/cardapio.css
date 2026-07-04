@@ -1,0 +1,72 @@
+/* ===== Estilos específicos da página de Cardápio (cardapio-opcoes-semana.html) ===== */
+body {
+  padding: 32px 24px 80px;
+  max-width: 1200px;
+}
+header { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 3px solid #2d6a4f; }
+header h1 { font-size: 1.8rem; font-weight: 700; color: #1b4332; margin-bottom: 6px; }
+header p { color: #555; font-size: 0.95rem; line-height: 1.6; }
+.tag { display: inline-block; background: #d8f3dc; color: #1b4332; font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-right: 6px; margin-top: 8px; }
+.tag.orange { background: #ffedd5; color: #7c2d12; }
+
+nav.toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 32px; }
+nav.toc a {
+  background: white; border: 1px solid #d8f3dc; color: #1b4332;
+  font-size: 0.82rem; font-weight: 600; padding: 6px 14px; border-radius: 20px;
+  text-decoration: none;
+}
+nav.toc a:hover { background: #d8f3dc; }
+
+.note-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 14px 18px; margin: 16px 0 24px; font-size: 0.88rem; color: #78350f; line-height: 1.6; }
+.note-box strong { display: block; margin-bottom: 4px; }
+
+.section-title { display: flex; align-items: center; gap: 12px; margin: 40px 0 20px; }
+.section-title .badge { background: #2d6a4f; color: white; padding: 6px 18px; border-radius: 30px; font-size: 1rem; font-weight: 700; white-space: nowrap; }
+.section-title hr { flex: 1; border: none; border-top: 2px solid #ccc; }
+.section-title p { color: #666; font-size: 0.85rem; white-space: nowrap; }
+
+/* meal sections (catalog) */
+.meal-section { background: white; border-radius: 16px; padding: 24px 26px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); scroll-margin-top: 16px; }
+.meal-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
+.meal-icon { font-size: 1.4rem; }
+.meal-header h2 { font-size: 1.25rem; color: #1b4332; font-weight: 700; }
+.who-tag { margin-left: auto; font-size: 0.78rem; font-weight: 600; color: #666; background: #f1f5f9; padding: 4px 12px; border-radius: 20px; }
+
+.opt-groups { margin-top: 14px; display: flex; flex-direction: column; gap: 16px; }
+.opt-group { border-left: 4px solid #2d6a4f; padding-left: 16px; }
+.opt-group-label { font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
+.opt-card { background: #f9faf9; border-radius: 10px; padding: 12px 16px; margin-bottom: 10px; }
+.opt-card:last-child { margin-bottom: 0; }
+.opt-title { font-weight: 700; font-size: 0.95rem; color: #1f2937; margin-bottom: 4px; }
+.opt-num { display: inline-block; background: #2d6a4f; color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-right: 8px; vertical-align: middle; }
+.opt-ing { font-size: 0.86rem; color: #444; line-height: 1.5; }
+.opt-card .obs { font-size: 0.8rem; color: #6b7280; margin-top: 6px; font-style: italic; }
+.weekend-note { font-size: 0.86rem; color: #6b21a8; padding: 4px 0; }
+
+/* semana modelo grid (reuses table.menu style) */
+.menu-table-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+table.menu { border-collapse: collapse; width: 100%; min-width: 950px; background: white; font-size: 0.82rem; }
+table.menu th { padding: 9px 10px; text-align: center; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; border-bottom: 2px solid #e2e8f0; white-space: nowrap; }
+th.day-header { background: #f1f5f9; color: #475569; }
+th.wkend-header { background: #f3e8ff; color: #6b21a8; }
+th.row-label { background: #f8fafc; color: #64748b; text-align:left; width: 130px; }
+table.menu td { padding: 8px 10px; border-bottom: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; vertical-align: top; line-height: 1.4; color: #374151; }
+table.menu td.row-label-cell { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; padding: 8px 12px; border-right: 2px solid #e2e8f0; }
+tr.row-chef td { background: #f0fdf4; }
+tr.row-chef td.row-label-cell { background: #dcfce7; color: #14532d; }
+tr.row-jessica td { background: #eff6ff; }
+tr.row-jessica td.row-label-cell { background: #dbeafe; color: #1e3a5f; }
+tr.row-kevin td { background: #fff7ed; }
+tr.row-kevin td.row-label-cell { background: #ffedd5; color: #7c2d12; }
+td.wkend { background: rgba(168,85,247,0.06) !important; }
+.cell-list { list-style: none; }
+.cell-list li { margin-bottom: 4px; }
+.cell-list a { color: #1f2937; text-decoration: none; font-size: 0.8rem; }
+.cell-list a:hover { text-decoration: underline; color: #2d6a4f; }
+.cell-empty, .cell-note { color: #9ca3af; font-size: 0.78rem; font-style: italic; }
+
+@media print {
+  body { padding: 16px; background: white; }
+  .meal-section { box-shadow: none; border: 1px solid #ddd; }
+  nav.toc { display: none; }
+}

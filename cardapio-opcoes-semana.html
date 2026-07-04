@@ -4,89 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cardápio — Jessica &amp; Kevin</title>
-<style>
-  .back-nav { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 600; color: #2d6a4f; text-decoration: none; margin-bottom: 16px; }
-  .back-nav:hover { text-decoration: underline; }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #f5f4f0;
-    color: #2d2d2d;
-    padding: 32px 24px 80px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  header { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 3px solid #2d6a4f; }
-  header h1 { font-size: 1.8rem; font-weight: 700; color: #1b4332; margin-bottom: 6px; }
-  header p { color: #555; font-size: 0.95rem; line-height: 1.6; }
-  .tag { display: inline-block; background: #d8f3dc; color: #1b4332; font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-right: 6px; margin-top: 8px; }
-  .tag.blue { background: #dbeafe; color: #1e3a5f; }
-  .tag.orange { background: #ffedd5; color: #7c2d12; }
-
-  nav.toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 32px; }
-  nav.toc a {
-    background: white; border: 1px solid #d8f3dc; color: #1b4332;
-    font-size: 0.82rem; font-weight: 600; padding: 6px 14px; border-radius: 20px;
-    text-decoration: none;
-  }
-  nav.toc a:hover { background: #d8f3dc; }
-
-  .note-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 14px 18px; margin: 16px 0 24px; font-size: 0.88rem; color: #78350f; line-height: 1.6; }
-  .note-box strong { display: block; margin-bottom: 4px; }
-
-  .section-title { display: flex; align-items: center; gap: 12px; margin: 40px 0 20px; }
-  .section-title .badge { background: #2d6a4f; color: white; padding: 6px 18px; border-radius: 30px; font-size: 1rem; font-weight: 700; white-space: nowrap; }
-  .section-title hr { flex: 1; border: none; border-top: 2px solid #ccc; }
-  .section-title p { color: #666; font-size: 0.85rem; white-space: nowrap; }
-
-  /* meal sections (catalog) */
-  .meal-section { background: white; border-radius: 16px; padding: 24px 26px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); scroll-margin-top: 16px; }
-  .meal-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
-  .meal-icon { font-size: 1.4rem; }
-  .meal-header h2 { font-size: 1.25rem; color: #1b4332; font-weight: 700; }
-  .who-tag { margin-left: auto; font-size: 0.78rem; font-weight: 600; color: #666; background: #f1f5f9; padding: 4px 12px; border-radius: 20px; }
-
-  .opt-groups { margin-top: 14px; display: flex; flex-direction: column; gap: 16px; }
-  .opt-group { border-left: 4px solid #2d6a4f; padding-left: 16px; }
-  .opt-group-label { font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
-  .opt-card { background: #f9faf9; border-radius: 10px; padding: 12px 16px; margin-bottom: 10px; }
-  .opt-card:last-child { margin-bottom: 0; }
-  .opt-title { font-weight: 700; font-size: 0.95rem; color: #1f2937; margin-bottom: 4px; }
-  .opt-num { display: inline-block; background: #2d6a4f; color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-right: 8px; vertical-align: middle; }
-  .opt-ing { font-size: 0.86rem; color: #444; line-height: 1.5; }
-  .opt-card .obs { font-size: 0.8rem; color: #6b7280; margin-top: 6px; font-style: italic; }
-  .weekend-note { font-size: 0.86rem; color: #6b21a8; padding: 4px 0; }
-
-  /* semana modelo grid (reuses table.menu style) */
-  .menu-table-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-  table.menu { border-collapse: collapse; width: 100%; min-width: 950px; background: white; font-size: 0.82rem; }
-  table.menu th { padding: 9px 10px; text-align: center; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; border-bottom: 2px solid #e2e8f0; white-space: nowrap; }
-  th.day-header { background: #f1f5f9; color: #475569; }
-  th.wkend-header { background: #f3e8ff; color: #6b21a8; }
-  th.row-label { background: #f8fafc; color: #64748b; text-align:left; width: 130px; }
-  table.menu td { padding: 8px 10px; border-bottom: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; vertical-align: top; line-height: 1.4; color: #374151; }
-  table.menu td.row-label-cell { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; padding: 8px 12px; border-right: 2px solid #e2e8f0; }
-  tr.row-chef td { background: #f0fdf4; }
-  tr.row-chef td.row-label-cell { background: #dcfce7; color: #14532d; }
-  tr.row-jessica td { background: #eff6ff; }
-  tr.row-jessica td.row-label-cell { background: #dbeafe; color: #1e3a5f; }
-  tr.row-kevin td { background: #fff7ed; }
-  tr.row-kevin td.row-label-cell { background: #ffedd5; color: #7c2d12; }
-  td.wkend { background: rgba(168,85,247,0.06) !important; }
-  .cell-list { list-style: none; }
-  .cell-list li { margin-bottom: 4px; }
-  .cell-list a { color: #1f2937; text-decoration: none; font-size: 0.8rem; }
-  .cell-list a:hover { text-decoration: underline; color: #2d6a4f; }
-  .cell-empty, .cell-note { color: #9ca3af; font-size: 0.78rem; font-style: italic; }
-
-  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 0.82rem; color: #999; text-align: center; }
-
-  @media print {
-    body { padding: 16px; background: white; }
-    .meal-section { box-shadow: none; border: 1px solid #ddd; }
-    nav.toc { display: none; }
-  }
-</style>
+<link rel="stylesheet" href="assets/css/common.css">
+<link rel="stylesheet" href="assets/css/cardapio.css">
 </head>
 <body>
 
@@ -198,62 +117,62 @@
   <div class="opt-group" style="border-left-color:#2d6a4f;">
     <div class="opt-group-label" style="color:#2d6a4f;">📅 Dias de Semana (Segunda a Sexta)</div>
     <div class="opt-card">
-      <div class="opt-title"><span class="opt-num">Opção 1</span>Frango Grelhado com Batata Doce (ou Arroz) e Mix de Legumes</div>
-      <div class="opt-ing">1 filé grande (200g) de peito de frango grelhado + 2 unidades médias (300g) de batata doce cozida (para purê) <b>OU</b> 1 xícara e meia (250g) de arroz branco cozido + 2 xícaras (200g) de brócolis e couve-flor + 1 unidade média (100g) de cenoura cozida + 1 colher de chá (5ml) de azeite extra virgem</div>
-      
+      <div class="opt-title"><span class="opt-num">Opção 1</span>Frango Grelhado com Batata-Doce (ou Arroz) e Mix de Legumes</div>
+      <div class="opt-ing">200g de peito de frango grelhado + 300g de batata-doce cozida (ou purê) <b>OU</b> 250g de arroz branco cozido + 200g de brócolis e couve-flor + 100g de cenoura cozida + 1 colher de chá (5ml) de azeite extravirgem</div>
+
     </div>
     <div class="opt-card">
-      <div class="opt-title"><span class="opt-num">Opção 2</span>Peixe Branco Cozido com Couve e Batata Doce (ou Arroz)</div>
-      <div class="opt-ing">1 filé grande (180g) de tilápia, cação ou pintado cozido a vapor + 1 xícara e meia (150g) de couve refogada + 1 xícara e meia (250g) de batata doce cozida <b>OU</b> arroz branco cozido + 1 colher de chá (5ml) de azeite</div>
-      
+      <div class="opt-title"><span class="opt-num">Opção 2</span>Tilápia Grelhada com Couve e Batata-Doce (ou Arroz)</div>
+      <div class="opt-ing">180g de filé de tilápia grelhado + 150g de couve refogada + 250g de batata-doce cozida <b>OU</b> 250g de arroz branco cozido + 1 colher de chá (5ml) de azeite extravirgem</div>
+
     </div>
     <div class="opt-card">
-      <div class="opt-title"><span class="opt-num">Opção 3</span>Carne Moída Magra com Abóbora Cabotiá</div>
-      <div class="opt-ing">1 porção média (180g) de patinho moído refogado + 2 fatias grandes (300g) de abóbora cabotiá assada + 1 xícara (50g) de agrião + 1/2 xícara (50g) de rabanete fatiado + 1 xícara e meia (250g) de mandioca cozida <b>OU</b> arroz branco cozido</div>
-      
+      <div class="opt-title"><span class="opt-num">Opção 3</span>Patinho em Tiras com Abóbora Cabotiá</div>
+      <div class="opt-ing">180g de patinho em tiras grelhado ou refogado + 300g de abóbora cabotiá assada + 50g de agrião + 50g de rabanete fatiado + 250g de mandioca cozida <b>OU</b> 250g de arroz branco cozido</div>
+
     </div>
     <div class="opt-card">
       <div class="opt-title"><span class="opt-num">Opção 4</span>Frango Grelhado com Mandioca (ou Arroz) e Legumes</div>
-      <div class="opt-ing">1 filé grande (180–200g) de peito de frango grelhado + 200g de mandioca cozida <b>OU</b> arroz branco cozido + brócolis + 100g de cenoura + azeite extra virgem</div>
-      
+      <div class="opt-ing">180–200g de peito de frango grelhado + 200g de mandioca cozida <b>OU</b> 250g de arroz branco cozido + brócolis + 100g de cenoura cozida + 1 colher de chá (5ml) de azeite extravirgem</div>
+
     </div>
     <div class="opt-card">
-      <div class="opt-title"><span class="opt-num">Opção 5</span>Peixe Assado (Cação ou Pintado) com Couve e Mandioquinha (ou Arroz)</div>
-      <div class="opt-ing">180g de cação ou pintado assado + couve refogada (150g) + 250g de mandioquinha cozida <b>OU</b> arroz branco cozido + azeite</div>
-      
+      <div class="opt-title"><span class="opt-num">Opção 5</span>Tilápia Grelhada com Couve e Mandioquinha (ou Arroz)</div>
+      <div class="opt-ing">180g de filé de tilápia grelhado + 150g de couve refogada + 250g de mandioquinha cozida <b>OU</b> 250g de arroz branco cozido + 1 colher de chá (5ml) de azeite extravirgem</div>
+
     </div>
     <div class="opt-card">
       <div class="opt-title"><span class="opt-num">Opção 6</span>Frango com Cúrcuma e Inhame</div>
-      <div class="opt-ing">180g de frango marinado em cúrcuma e azeite + inhame assado <b>OU</b> arroz branco cozido + couve refogada + cenoura</div>
-      
+      <div class="opt-ing">180g de peito de frango marinado com cúrcuma e azeite + 250g de inhame assado <b>OU</b> 250g de arroz branco cozido + 150g de couve refogada + 100g de cenoura cozida</div>
+
     </div>
   </div>
   <div class="opt-group" style="border-left-color:#a855f7;">
     <div class="opt-group-label" style="color:#a855f7;">🌅 Fim de Semana (Sábado e Domingo)</div>
     <div class="opt-card">
       <div class="opt-title"><span class="opt-num">Opção 1</span>Salada Proteica Completa</div>
-      <div class="opt-ing">180–200g de frango grelhado + alface + rúcula + abacate + tomate cereja + pepino + azeite + batata doce assada <b>OU</b> arroz branco</div>
-      
+      <div class="opt-ing">180–200g de peito de frango grelhado + alface + rúcula + pepino + tomate-cereja + abacate + 1 colher de chá de azeite extravirgem + 250g de batata-doce assada <b>OU</b> 250g de arroz branco cozido</div>
+
     </div>
     <div class="opt-card">
-      <div class="opt-title"><span class="opt-num">Opção 2</span>Tilápia Grelhada com Batata Doce (ou Arroz)</div>
-      <div class="opt-ing">180g de tilápia grelhada + 250g de batata doce assada <b>OU</b> arroz branco + salada de folhas + tomate cereja + azeite</div>
-      
+      <div class="opt-title"><span class="opt-num">Opção 2</span>Tilápia Grelhada com Batata-Doce (ou Arroz)</div>
+      <div class="opt-ing">180g de filé de tilápia grelhado + 250g de batata-doce assada <b>OU</b> 250g de arroz branco cozido + salada de folhas + tomate-cereja + 1 colher de chá de azeite extravirgem</div>
+
     </div>
     <div class="opt-card">
       <div class="opt-title"><span class="opt-num">Opção 3</span>Sopa de Legumes com Frango</div>
-      <div class="opt-ing">Caldo claro: 150g de frango desfiado + cenoura + chuchu + mandioca + temperos naturais — leve e hidratante</div>
-      
+      <div class="opt-ing">150g de frango desfiado + cenoura + chuchu + mandioca + temperos naturais</div>
+
     </div>
     <div class="opt-card">
-      <div class="opt-title"><span class="opt-num">Opção 4</span>Frango ao Forno com Legumes</div>
-      <div class="opt-ing">200g de frango assado + cenoura + chuchu + cebola + mandioca cozida <b>OU</b> arroz branco — assado simples, sem chef</div>
-      
+      <div class="opt-title"><span class="opt-num">Opção 4</span>Frango Assado com Legumes</div>
+      <div class="opt-ing">200g de peito de frango assado + cenoura + chuchu + cebola + 250g de mandioca cozida <b>OU</b> 250g de arroz branco cozido</div>
+
     </div>
     <div class="opt-card">
-      <div class="opt-title"><span class="opt-num">Opção 5</span>Salada Proteica com Tilápia ou Atum</div>
-      <div class="opt-ing">Tilápia desfiada ou atum + folhas + abacate + tomate + batata doce assada <b>OU</b> arroz branco + azeite</div>
-      
+      <div class="opt-title"><span class="opt-num">Opção 5</span>Salada Proteica com Tilápia</div>
+      <div class="opt-ing">180g de filé de tilápia grelhado + mix de folhas + pepino + tomate-cereja + cenoura ralada + 1 colher de chá de azeite extravirgem + 250g de batata-doce assada <b>OU</b> 250g de arroz branco cozido</div>
+
     </div>
   </div>
   </div>
@@ -318,37 +237,37 @@
   <div class="opt-group" style="border-left-color:#2d6a4f;">
     <div class="opt-group-label" style="color:#2d6a4f;">📅 Dias de Semana (Segunda a Sexta)</div>
     <div class="opt-card">
-      <div class="opt-title"><span class="opt-num">Opção 1</span>Crepioca Recheada com Frango Desfiado e Espinafre</div>
-      <div class="opt-ing">2 unidades (120g) de ovo + 4 colheres de sopa (100g) de massa de tapioca pronta + 150g de peito de frango desfiado cozido + 2 xícaras (60g) de espinafre fresco + 1 dente (3g) de alho picado + 1 colher de chá (5ml) de azeite + sal e pimenta do reino a gosto</div>
+      <div class="opt-title"><span class="opt-num">Opção 1</span>Crepioca com Frango e Espinafre</div>
+      <div class="opt-ing">2 ovos (120g) + 100g de massa para tapioca + 150g de peito de frango desfiado + 60g de espinafre refogado + 1 dente de alho picado + 1 colher de chá (5ml) de azeite extravirgem + sal e pimenta-do-reino</div>
       <div class="obs">Opção leve e rica em proteínas.</div>
     </div>
     <div class="opt-card">
-      <div class="opt-title"><span class="opt-num">Opção 2</span>Wrap Integral de Frango com Ricota e Salada</div>
-      <div class="opt-ing">1 unidade (70g) de pão integral para wrap + 150g de peito de frango cozido e desfiado + 2 colheres de sopa (50g) de ricota fresca + alface + tomate cereja + pepino em rodelas + pimenta do reino a gosto</div>
+      <div class="opt-title"><span class="opt-num">Opção 2</span>Wrap Integral de Frango com Ricota</div>
+      <div class="opt-ing">1 wrap integral (70g) + 150g de peito de frango desfiado + 50g de ricota fresca + alface + tomate-cereja + pepino + pimenta-do-reino</div>
       <div class="obs">Ideal para uma refeição rápida e completa.</div>
     </div>
     <div class="opt-card">
-      <div class="opt-title"><span class="opt-num">Opção 3</span>Refeição com Carne Magra Desfiada e Salada</div>
-      <div class="opt-ing">120g de patinho cozido e desfiado + salada mista (alface, rúcula) + tomate cereja + pepino + azeite + batata doce cozida <b>OU</b> arroz branco (porção pequena)</div>
-      <div class="obs">Cozinhe a carne até ficar bem macia para facilitar a digestão.</div>
+      <div class="opt-title"><span class="opt-num">Opção 3</span>Patinho em Tiras com Salada</div>
+      <div class="opt-ing">150g de patinho em tiras grelhado + alface + rúcula + tomate-cereja + pepino + 150g de batata-doce cozida <b>OU</b> 120g de arroz branco cozido + 1 colher de chá de azeite extravirgem</div>
+
     </div>
     <div class="opt-card">
       <div class="opt-title"><span class="opt-num">Opção 4</span>Frango Grelhado com Salada e Raiz</div>
-      <div class="opt-ing">180g de peito de frango grelhado + alface + rúcula + tomate + pepino + inhame cozido ou batata doce cozida + azeite e limão</div>
-      
+      <div class="opt-ing">180g de peito de frango grelhado + alface + rúcula + tomate + pepino + 150g de inhame cozido <b>OU</b> 150g de batata-doce cozida <b>OU</b> 120g de arroz branco cozido + azeite extravirgem + limão</div>
+
     </div>
   </div>
   <div class="opt-group" style="border-left-color:#a855f7;">
     <div class="opt-group-label" style="color:#a855f7;">🌅 Fim de Semana (Sábado e Domingo)</div>
     <div class="opt-card">
       <div class="opt-title"><span class="opt-num">Opção 1</span>Sopa de Legumes com Frango</div>
-      <div class="opt-ing">Caldo com frango desfiado + cenoura + chuchu + mandioca + temperos naturais</div>
-      
+      <div class="opt-ing">150g de frango desfiado + cenoura + chuchu + mandioca + temperos naturais</div>
+
     </div>
     <div class="opt-card">
       <div class="opt-title"><span class="opt-num">Opção 2</span>Omelete com Salada</div>
-      <div class="opt-ing">3 ovos + espinafre + queijo branco + alho + salada de folhas com azeite e limão</div>
-      
+      <div class="opt-ing">3 ovos + espinafre + queijo branco + alho + salada de folhas + azeite extravirgem + limão</div>
+
     </div>
     <div class="opt-card">
       <div class="opt-title"><span class="opt-num">Opção 3</span>Sardinha com Salada</div>
@@ -357,13 +276,13 @@
     </div>
     <div class="opt-card">
       <div class="opt-title"><span class="opt-num">Opção 4</span>Tapioca com Frango e Tomate</div>
-      <div class="opt-ing">2 tapiocas + frango desfiado + tomate fatiado + queijo branco + azeite</div>
-      
+      <div class="opt-ing">2 tapiocas médias + 150g de peito de frango desfiado + tomate fatiado + queijo branco + azeite extravirgem</div>
+
     </div>
     <div class="opt-card">
-      <div class="opt-title"><span class="opt-num">Opção 5</span>Crepioca/Tapioca com Queijo e Salada</div>
-      <div class="opt-ing">2 tapiocas + queijo branco + tomate + salada de folhas</div>
-      <div class="obs">Leve e satisfatório.</div>
+      <div class="opt-title"><span class="opt-num">Opção 5</span>Crepioca com Queijo Branco e Salada</div>
+      <div class="opt-ing">2 ovos + 100g de massa para tapioca + queijo branco + tomate + salada de folhas + azeite extravirgem</div>
+
     </div>
   </div>
   </div>
@@ -402,8 +321,8 @@
       </tr>
       <tr class="row-chef">
         <td class="row-label-cell">👨‍🍳 Almoço<br><small>Chef · Ambos</small></td>
-        <td><ul class="cell-list"><li><a href="#almoco">Frango Grelhado com Batata Doce (ou Arroz) e Mix de Legumes</a></li><li><a href="#almoco">Peixe Branco Cozido com Couve e Batata Doce (ou Arroz)</a></li><li><a href="#almoco">Carne Moída Magra com Abóbora Cabotiá</a></li><li><a href="#almoco">Frango Grelhado com Mandioca (ou Arroz) e Legumes</a></li><li><a href="#almoco">Peixe Assado (Cação ou Pintado) com Couve e Mandioquinha (ou Arroz)</a></li><li><a href="#almoco">Frango com Cúrcuma e Inhame</a></li></ul></td><td><ul class="cell-list"><li><a href="#almoco">Frango Grelhado com Batata Doce (ou Arroz) e Mix de Legumes</a></li><li><a href="#almoco">Peixe Branco Cozido com Couve e Batata Doce (ou Arroz)</a></li><li><a href="#almoco">Carne Moída Magra com Abóbora Cabotiá</a></li><li><a href="#almoco">Frango Grelhado com Mandioca (ou Arroz) e Legumes</a></li><li><a href="#almoco">Peixe Assado (Cação ou Pintado) com Couve e Mandioquinha (ou Arroz)</a></li><li><a href="#almoco">Frango com Cúrcuma e Inhame</a></li></ul></td><td><ul class="cell-list"><li><a href="#almoco">Frango Grelhado com Batata Doce (ou Arroz) e Mix de Legumes</a></li><li><a href="#almoco">Peixe Branco Cozido com Couve e Batata Doce (ou Arroz)</a></li><li><a href="#almoco">Carne Moída Magra com Abóbora Cabotiá</a></li><li><a href="#almoco">Frango Grelhado com Mandioca (ou Arroz) e Legumes</a></li><li><a href="#almoco">Peixe Assado (Cação ou Pintado) com Couve e Mandioquinha (ou Arroz)</a></li><li><a href="#almoco">Frango com Cúrcuma e Inhame</a></li></ul></td><td><ul class="cell-list"><li><a href="#almoco">Frango Grelhado com Batata Doce (ou Arroz) e Mix de Legumes</a></li><li><a href="#almoco">Peixe Branco Cozido com Couve e Batata Doce (ou Arroz)</a></li><li><a href="#almoco">Carne Moída Magra com Abóbora Cabotiá</a></li><li><a href="#almoco">Frango Grelhado com Mandioca (ou Arroz) e Legumes</a></li><li><a href="#almoco">Peixe Assado (Cação ou Pintado) com Couve e Mandioquinha (ou Arroz)</a></li><li><a href="#almoco">Frango com Cúrcuma e Inhame</a></li></ul></td><td><ul class="cell-list"><li><a href="#almoco">Frango Grelhado com Batata Doce (ou Arroz) e Mix de Legumes</a></li><li><a href="#almoco">Peixe Branco Cozido com Couve e Batata Doce (ou Arroz)</a></li><li><a href="#almoco">Carne Moída Magra com Abóbora Cabotiá</a></li><li><a href="#almoco">Frango Grelhado com Mandioca (ou Arroz) e Legumes</a></li><li><a href="#almoco">Peixe Assado (Cação ou Pintado) com Couve e Mandioquinha (ou Arroz)</a></li><li><a href="#almoco">Frango com Cúrcuma e Inhame</a></li></ul></td>
-        <td class="wkend"><ul class="cell-list"><li><a href="#almoco">Salada Proteica Completa</a></li><li><a href="#almoco">Tilápia Grelhada com Batata Doce (ou Arroz)</a></li><li><a href="#almoco">Sopa de Legumes com Frango</a></li><li><a href="#almoco">Frango ao Forno com Legumes</a></li><li><a href="#almoco">Salada Proteica com Tilápia ou Atum</a></li></ul></td><td class="wkend"><ul class="cell-list"><li><a href="#almoco">Salada Proteica Completa</a></li><li><a href="#almoco">Tilápia Grelhada com Batata Doce (ou Arroz)</a></li><li><a href="#almoco">Sopa de Legumes com Frango</a></li><li><a href="#almoco">Frango ao Forno com Legumes</a></li><li><a href="#almoco">Salada Proteica com Tilápia ou Atum</a></li></ul></td>
+        <td><ul class="cell-list"><li><a href="#almoco">Frango Grelhado com Batata-Doce (ou Arroz) e Mix de Legumes</a></li><li><a href="#almoco">Tilápia Grelhada com Couve e Batata-Doce (ou Arroz)</a></li><li><a href="#almoco">Patinho em Tiras com Abóbora Cabotiá</a></li><li><a href="#almoco">Frango Grelhado com Mandioca (ou Arroz) e Legumes</a></li><li><a href="#almoco">Tilápia Grelhada com Couve e Mandioquinha (ou Arroz)</a></li><li><a href="#almoco">Frango com Cúrcuma e Inhame</a></li></ul></td><td><ul class="cell-list"><li><a href="#almoco">Frango Grelhado com Batata-Doce (ou Arroz) e Mix de Legumes</a></li><li><a href="#almoco">Tilápia Grelhada com Couve e Batata-Doce (ou Arroz)</a></li><li><a href="#almoco">Patinho em Tiras com Abóbora Cabotiá</a></li><li><a href="#almoco">Frango Grelhado com Mandioca (ou Arroz) e Legumes</a></li><li><a href="#almoco">Tilápia Grelhada com Couve e Mandioquinha (ou Arroz)</a></li><li><a href="#almoco">Frango com Cúrcuma e Inhame</a></li></ul></td><td><ul class="cell-list"><li><a href="#almoco">Frango Grelhado com Batata-Doce (ou Arroz) e Mix de Legumes</a></li><li><a href="#almoco">Tilápia Grelhada com Couve e Batata-Doce (ou Arroz)</a></li><li><a href="#almoco">Patinho em Tiras com Abóbora Cabotiá</a></li><li><a href="#almoco">Frango Grelhado com Mandioca (ou Arroz) e Legumes</a></li><li><a href="#almoco">Tilápia Grelhada com Couve e Mandioquinha (ou Arroz)</a></li><li><a href="#almoco">Frango com Cúrcuma e Inhame</a></li></ul></td><td><ul class="cell-list"><li><a href="#almoco">Frango Grelhado com Batata-Doce (ou Arroz) e Mix de Legumes</a></li><li><a href="#almoco">Tilápia Grelhada com Couve e Batata-Doce (ou Arroz)</a></li><li><a href="#almoco">Patinho em Tiras com Abóbora Cabotiá</a></li><li><a href="#almoco">Frango Grelhado com Mandioca (ou Arroz) e Legumes</a></li><li><a href="#almoco">Tilápia Grelhada com Couve e Mandioquinha (ou Arroz)</a></li><li><a href="#almoco">Frango com Cúrcuma e Inhame</a></li></ul></td><td><ul class="cell-list"><li><a href="#almoco">Frango Grelhado com Batata-Doce (ou Arroz) e Mix de Legumes</a></li><li><a href="#almoco">Tilápia Grelhada com Couve e Batata-Doce (ou Arroz)</a></li><li><a href="#almoco">Patinho em Tiras com Abóbora Cabotiá</a></li><li><a href="#almoco">Frango Grelhado com Mandioca (ou Arroz) e Legumes</a></li><li><a href="#almoco">Tilápia Grelhada com Couve e Mandioquinha (ou Arroz)</a></li><li><a href="#almoco">Frango com Cúrcuma e Inhame</a></li></ul></td>
+        <td class="wkend"><ul class="cell-list"><li><a href="#almoco">Salada Proteica Completa</a></li><li><a href="#almoco">Tilápia Grelhada com Batata-Doce (ou Arroz)</a></li><li><a href="#almoco">Sopa de Legumes com Frango</a></li><li><a href="#almoco">Frango Assado com Legumes</a></li><li><a href="#almoco">Salada Proteica com Tilápia</a></li></ul></td><td class="wkend"><ul class="cell-list"><li><a href="#almoco">Salada Proteica Completa</a></li><li><a href="#almoco">Tilápia Grelhada com Batata-Doce (ou Arroz)</a></li><li><a href="#almoco">Sopa de Legumes com Frango</a></li><li><a href="#almoco">Frango Assado com Legumes</a></li><li><a href="#almoco">Salada Proteica com Tilápia</a></li></ul></td>
       </tr>
       <tr class="row-jessica">
         <td class="row-label-cell">🌸 Lanche da Tarde<br><small>Jessica</small></td>
@@ -417,8 +336,8 @@
       </tr>
       <tr class="row-chef">
         <td class="row-label-cell">👨‍🍳 Jantar<br><small>Chef · Ambos</small></td>
-        <td><ul class="cell-list"><li><a href="#jantar">Crepioca Recheada com Frango Desfiado e Espinafre</a></li><li><a href="#jantar">Wrap Integral de Frango com Ricota e Salada</a></li><li><a href="#jantar">Refeição com Carne Magra Desfiada e Salada</a></li><li><a href="#jantar">Frango Grelhado com Salada e Raiz</a></li></ul></td><td><ul class="cell-list"><li><a href="#jantar">Crepioca Recheada com Frango Desfiado e Espinafre</a></li><li><a href="#jantar">Wrap Integral de Frango com Ricota e Salada</a></li><li><a href="#jantar">Refeição com Carne Magra Desfiada e Salada</a></li><li><a href="#jantar">Frango Grelhado com Salada e Raiz</a></li></ul></td><td><ul class="cell-list"><li><a href="#jantar">Crepioca Recheada com Frango Desfiado e Espinafre</a></li><li><a href="#jantar">Wrap Integral de Frango com Ricota e Salada</a></li><li><a href="#jantar">Refeição com Carne Magra Desfiada e Salada</a></li><li><a href="#jantar">Frango Grelhado com Salada e Raiz</a></li></ul></td><td><ul class="cell-list"><li><a href="#jantar">Crepioca Recheada com Frango Desfiado e Espinafre</a></li><li><a href="#jantar">Wrap Integral de Frango com Ricota e Salada</a></li><li><a href="#jantar">Refeição com Carne Magra Desfiada e Salada</a></li><li><a href="#jantar">Frango Grelhado com Salada e Raiz</a></li></ul></td><td><ul class="cell-list"><li><a href="#jantar">Crepioca Recheada com Frango Desfiado e Espinafre</a></li><li><a href="#jantar">Wrap Integral de Frango com Ricota e Salada</a></li><li><a href="#jantar">Refeição com Carne Magra Desfiada e Salada</a></li><li><a href="#jantar">Frango Grelhado com Salada e Raiz</a></li></ul></td>
-        <td class="wkend"><ul class="cell-list"><li><a href="#jantar">Sopa de Legumes com Frango</a></li><li><a href="#jantar">Omelete com Salada</a></li><li><a href="#jantar">Sardinha com Salada</a></li><li><a href="#jantar">Tapioca com Frango e Tomate</a></li><li><a href="#jantar">Crepioca/Tapioca com Queijo e Salada</a></li></ul></td><td class="wkend"><ul class="cell-list"><li><a href="#jantar">Sopa de Legumes com Frango</a></li><li><a href="#jantar">Omelete com Salada</a></li><li><a href="#jantar">Sardinha com Salada</a></li><li><a href="#jantar">Tapioca com Frango e Tomate</a></li><li><a href="#jantar">Crepioca/Tapioca com Queijo e Salada</a></li></ul></td>
+        <td><ul class="cell-list"><li><a href="#jantar">Crepioca com Frango e Espinafre</a></li><li><a href="#jantar">Wrap Integral de Frango com Ricota</a></li><li><a href="#jantar">Patinho em Tiras com Salada</a></li><li><a href="#jantar">Frango Grelhado com Salada e Raiz</a></li></ul></td><td><ul class="cell-list"><li><a href="#jantar">Crepioca com Frango e Espinafre</a></li><li><a href="#jantar">Wrap Integral de Frango com Ricota</a></li><li><a href="#jantar">Patinho em Tiras com Salada</a></li><li><a href="#jantar">Frango Grelhado com Salada e Raiz</a></li></ul></td><td><ul class="cell-list"><li><a href="#jantar">Crepioca com Frango e Espinafre</a></li><li><a href="#jantar">Wrap Integral de Frango com Ricota</a></li><li><a href="#jantar">Patinho em Tiras com Salada</a></li><li><a href="#jantar">Frango Grelhado com Salada e Raiz</a></li></ul></td><td><ul class="cell-list"><li><a href="#jantar">Crepioca com Frango e Espinafre</a></li><li><a href="#jantar">Wrap Integral de Frango com Ricota</a></li><li><a href="#jantar">Patinho em Tiras com Salada</a></li><li><a href="#jantar">Frango Grelhado com Salada e Raiz</a></li></ul></td><td><ul class="cell-list"><li><a href="#jantar">Crepioca com Frango e Espinafre</a></li><li><a href="#jantar">Wrap Integral de Frango com Ricota</a></li><li><a href="#jantar">Patinho em Tiras com Salada</a></li><li><a href="#jantar">Frango Grelhado com Salada e Raiz</a></li></ul></td>
+        <td class="wkend"><ul class="cell-list"><li><a href="#jantar">Sopa de Legumes com Frango</a></li><li><a href="#jantar">Omelete com Salada</a></li><li><a href="#jantar">Sardinha com Salada</a></li><li><a href="#jantar">Tapioca com Frango e Tomate</a></li><li><a href="#jantar">Crepioca com Queijo Branco e Salada</a></li></ul></td><td class="wkend"><ul class="cell-list"><li><a href="#jantar">Sopa de Legumes com Frango</a></li><li><a href="#jantar">Omelete com Salada</a></li><li><a href="#jantar">Sardinha com Salada</a></li><li><a href="#jantar">Tapioca com Frango e Tomate</a></li><li><a href="#jantar">Crepioca com Queijo Branco e Salada</a></li></ul></td>
       </tr>
     </tbody>
   </table>
