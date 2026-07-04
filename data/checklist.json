@@ -29,7 +29,8 @@
     "w-18": true,
     "mensal-suplementos-2": false,
     "mensal-suplementos-1": false,
-    "mensal-carboidratos-1": true
+    "mensal-carboidratos-1": true,
+    "mensal-carboidratos-2": true
   },
   "channel": {
     "m-1": "internet",
