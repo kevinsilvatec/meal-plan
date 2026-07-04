@@ -28,7 +28,7 @@
     "w-16": true,
     "w-18": true,
     "mensal-suplementos-2": false,
-    "mensal-suplementos-1": false,
+    "mensal-suplementos-1": true,
     "mensal-carboidratos-1": true,
     "mensal-carboidratos-2": true,
     "mensal-carboidratos-4": true,
