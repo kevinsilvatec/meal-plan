@@ -31,7 +31,8 @@
     "mensal-suplementos-1": false,
     "mensal-carboidratos-1": true,
     "mensal-carboidratos-2": true,
-    "mensal-carboidratos-4": true
+    "mensal-carboidratos-4": true,
+    "mensal-carboidratos-5": true
   },
   "channel": {
     "m-1": "internet",
