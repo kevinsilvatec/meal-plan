@@ -143,8 +143,21 @@
     "mensal-chas-2": "presencial",
     "mensal-chas-6": "presencial",
     "mensal-proteinas-1": "presencial",
-    "mensal-proteinas-2": "presencial"
+    "mensal-proteinas-2": "presencial",
+    "custom-mr6mlwye-vnv0t": "internet"
   },
   "removed": [],
-  "custom": []
+  "custom": [
+    {
+      "id": "custom-mr6mlwye-vnv0t",
+      "name": "Whey Protein",
+      "note": "",
+      "qty": "1 pote(s)/mês",
+      "qtyValue": "1",
+      "qtyUnit": "pote(s)",
+      "qtyFreq": "/mês",
+      "section": "mensal",
+      "type": "suplementos"
+    }
+  ]
 }
