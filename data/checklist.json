@@ -88,7 +88,9 @@
     "mensal-proteinas-2": true,
     "mensal-proteinas-1": true,
     "mensal-chas-3": true,
-    "mensal-chas-4": true
+    "mensal-chas-4": true,
+    "mensal-chas-2": true,
+    "mensal-chas-1": true
   },
   "channel": {
     "m-1": "internet",
