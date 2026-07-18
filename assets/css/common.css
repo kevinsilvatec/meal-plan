@@ -17,3 +17,13 @@ body {
 
 /* Rodapé padrão das páginas internas */
 footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 0.82rem; color: #999; text-align: center; }
+
+/* Barra fixa de configuração do token do GitHub, comum a todas as páginas (assets/js/common.js) */
+#global-token-bar { position: fixed; bottom: 14px; right: 14px; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 7px 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.14); display: flex; align-items: center; gap: 8px; font-size: 0.76rem; z-index: 999; }
+.global-token-status { color: #888; white-space: nowrap; }
+.global-token-status.ok { color: #2d6a4f; font-weight: 600; }
+.global-token-status.warn { color: #b45309; font-weight: 600; }
+.global-token-btn { background: #f8fafc; border: 1px solid #cbd5e1; color: #1e3a5f; font-size: 0.74rem; padding: 4px 10px; border-radius: 16px; cursor: pointer; white-space: nowrap; }
+.global-token-btn:hover { background: #eef2f7; }
+@media print { #global-token-bar { display: none; } }
+@media (max-width: 480px) { #global-token-bar { left: 14px; right: 14px; justify-content: space-between; } }

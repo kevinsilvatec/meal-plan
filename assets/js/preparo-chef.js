@@ -8,55 +8,54 @@ const PROTEIN_LABELS = {
 const CARB_LABELS = {
   batata_doce: "Batata doce",
   mandioca: "Mandioca",
-  mandioquinha: "Mandioquinha",
   inhame: "Inhame",
   arroz: "Arroz branco cozido",
 };
 
 const ALMOCO_OPTIONS = [
   { id: 1, name: "Frango Grelhado + Batata-Doce + Legumes",
-    protein: { type: "frango_grelhar", qty: 200 },
-    carb: { type: "batata_doce", qty: 300, arrozQty: 250 },
-    veggies: [{ name: "Brócolis e couve-flor", qty: 200 }, { name: "Cenoura", qty: 100 }] },
+    protein: { type: "frango_grelhar", qty: 160 },
+    carb: { type: "batata_doce", qty: 180, arrozQty: 150 },
+    veggies: [{ name: "Brócolis e couve-flor", qty: 160 }, { name: "Cenoura", qty: 80 }] },
   { id: 2, name: "Tilápia Grelhada + Couve + Batata-Doce",
-    protein: { type: "peixe", qty: 180 },
-    carb: { type: "batata_doce", qty: 250, arrozQty: 250 },
-    veggies: [{ name: "Couve refogada", qty: 150 }] },
+    protein: { type: "peixe", qty: 150 },
+    carb: { type: "batata_doce", qty: 160, arrozQty: 150 },
+    veggies: [{ name: "Couve refogada", qty: 120 }] },
   { id: 3, name: "Patinho em Tiras + Abóbora",
-    protein: { type: "patinho_tiras", qty: 180 },
-    carb: { type: "mandioca", qty: 250, arrozQty: 250 },
-    veggies: [{ name: "Abóbora cabotiá", qty: 300 }, { name: "Agrião", qty: 50 }, { name: "Rabanete", qty: 50 }] },
+    protein: { type: "patinho_tiras", qty: 150 },
+    carb: { type: "mandioca", qty: 160, arrozQty: 150 },
+    veggies: [{ name: "Abóbora cabotiá", qty: 200 }, { name: "Agrião", qty: 40, fresh: true }, { name: "Rabanete", qty: 40, fresh: true }] },
   { id: 4, name: "Frango + Mandioca + Legumes",
-    protein: { type: "frango_grelhar", qty: 190 },
-    carb: { type: "mandioca", qty: 200, arrozQty: 250 },
-    veggies: [{ name: "Brócolis", qty: 150 }, { name: "Cenoura", qty: 100 }] },
-  { id: 5, name: "Tilápia Grelhada + Couve + Mandioquinha",
-    protein: { type: "peixe", qty: 180 },
-    carb: { type: "mandioquinha", qty: 250, arrozQty: 250 },
-    veggies: [{ name: "Couve refogada", qty: 150 }] },
+    protein: { type: "frango_grelhar", qty: 160 },
+    carb: { type: "mandioca", qty: 150, arrozQty: 150 },
+    veggies: [{ name: "Brócolis", qty: 120 }, { name: "Cenoura", qty: 80 }] },
+  { id: 5, name: "Tilápia Grelhada + Couve + Mandioca",
+    protein: { type: "peixe", qty: 150 },
+    carb: { type: "mandioca", qty: 160, arrozQty: 150 },
+    veggies: [{ name: "Couve refogada", qty: 120 }] },
   { id: 6, name: "Frango c/ Cúrcuma + Inhame",
-    protein: { type: "frango_grelhar", qty: 180 },
-    carb: { type: "inhame", qty: 250, arrozQty: 250 },
-    veggies: [{ name: "Couve refogada", qty: 150 }, { name: "Cenoura", qty: 100 }] },
+    protein: { type: "frango_grelhar", qty: 150 },
+    carb: { type: "inhame", qty: 160, arrozQty: 150 },
+    veggies: [{ name: "Couve refogada", qty: 120 }, { name: "Cenoura", qty: 80 }] },
 ];
 
 const JANTAR_OPTIONS = [
   { id: 1, name: "Crepioca com Frango e Espinafre",
-    chefProtein: { type: "frango_desfiar", qty: 150 },
-    chefExtra: [{ name: "Espinafre refogado", qty: 60 }, { name: "Alho", qty: 3 }],
+    chefProtein: { type: "frango_desfiar", qty: 120 },
+    chefExtra: [{ name: "Espinafre refogado", qty: 50 }, { name: "Alho", qty: 3 }],
     emCasa: "Bater ovos + massa de tapioca e montar a crepioca com o recheio pronto" },
   { id: 2, name: "Wrap Integral de Frango com Ricota",
-    chefProtein: { type: "frango_desfiar", qty: 150 },
-    chefExtra: [{ name: "Ricota fresca (porcionar, sem cozinhar)", qty: 50 }],
+    chefProtein: { type: "frango_desfiar", qty: 120 },
+    chefExtra: [{ name: "Ricota fresca (porcionar, sem cozinhar)", qty: 40 }],
     emCasa: "Montar o wrap com pão integral, recheio e salada fresca (alface, tomate-cereja, pepino)" },
   { id: 3, name: "Patinho em Tiras com Salada",
-    chefProtein: { type: "patinho_tiras", qty: 150 },
-    chefCarb: { type: "batata_doce", qty: 150, arrozQty: 120 },
+    chefProtein: { type: "patinho_tiras", qty: 120 },
+    chefCarb: { type: "batata_doce", qty: 120, arrozQty: 100 },
     emCasa: "Montar salada fresca (alface, rúcula, tomate-cereja, pepino) e servir com azeite extravirgem" },
   { id: 4, name: "Frango Grelhado + Salada + Raiz",
-    chefProtein: { type: "frango_grelhar", qty: 180 },
-    chefCarb: { type: "inhame", qty: 150, arrozQty: 120 },
-    carbNote: "Pode variar entre inhame cozido, batata-doce cozida (150g) ou arroz branco (120g), conforme o insumo do dia",
+    chefProtein: { type: "frango_grelhar", qty: 140 },
+    chefCarb: { type: "inhame", qty: 120, arrozQty: 100 },
+    carbNote: "Pode variar entre inhame cozido, batata-doce cozida (120g) ou arroz branco (100g), conforme o que tiver disponível no dia",
     emCasa: "Montar salada fresca (alface, rúcula, tomate, pepino) com azeite extravirgem e limão" },
 ];
 
@@ -130,7 +129,7 @@ async function fetchRemoteState() {
 
 async function pushRemoteState(newState) {
   const token = getToken();
-  if (!token) { setSyncStatus('⚠️ Sem token — mudança salva só neste aparelho', 'warn'); return false; }
+  if (!token) { setSyncStatus('⚠️ Sem token, mudança salva só neste aparelho', 'warn'); return false; }
   const body = {
     message: 'Atualiza escolhas da calculadora de preparo',
     content: b64EncodeUnicode(JSON.stringify(newState, null, 2)),
@@ -163,7 +162,7 @@ async function pushRemoteState(newState) {
     return true;
   } catch (err) {
     console.warn('Erro de rede ao salvar no GitHub:', err);
-    setSyncStatus('⚠️ Sem conexão — salvo só neste aparelho', 'warn');
+    setSyncStatus('⚠️ Sem conexão, salvo só neste aparelho', 'warn');
     return false;
   }
 }
@@ -171,7 +170,7 @@ async function pushRemoteState(newState) {
 async function syncFromRemote() {
   const remote = await fetchRemoteState();
   if (remote === undefined) {
-    setSyncStatus(getToken() ? '⚠️ Não foi possível buscar as escolhas compartilhadas' : '⚠️ Sem token configurado — clique em "Configurar token"', 'warn');
+    setSyncStatus(getToken() ? '⚠️ Não foi possível buscar as escolhas compartilhadas' : '⚠️ Sem token configurado, clique em "🔑 Token do GitHub" no canto da tela', 'warn');
     return;
   }
   if (remote !== null && JSON.stringify(remote) !== JSON.stringify(state)) {
@@ -186,7 +185,7 @@ async function syncFromRemote() {
 
 window.configurarTokenChef = function() {
   const current = getToken();
-  const value = prompt('Cole aqui o token do GitHub (fine-grained, permissão "Contents: Read and write", restrito ao repositório ' + GITHUB_REPO + '). É o mesmo token usado na lista de compras — fica salvo só neste navegador.', current);
+  const value = prompt('Cole aqui o token do GitHub (fine-grained, permissão "Contents: Read and write", restrito ao repositório ' + GITHUB_REPO + '). É o mesmo token usado na lista de compras; fica salvo só neste navegador.', current);
   if (value === null) return;
   setToken(value.trim());
   setSyncStatus('🔄 Verificando token...', 'info');
@@ -210,7 +209,7 @@ function renderFichaAlmoco() {
       <td class="opt-name">Opção ${o.id}<br><small>${o.name}</small></td>
       <td><span class="chip">${PROTEIN_LABELS[o.protein.type]}: ${o.protein.qty}g</span></td>
       <td>${fmtCarb(o)}</td>
-      <td>${o.veggies.map(v => `<span class="chip veg">${v.name}: ${v.qty}g</span>`).join(" ")}</td>
+      <td>${o.veggies.map(v => `<span class="chip veg">${v.name}${v.fresh ? " (fresco)" : ""}: ${v.qty}g</span>`).join(" ")}</td>
     </tr>`).join("");
 }
 
@@ -241,7 +240,7 @@ function renderDaySelectors() {
       <div class="day-label">${day}</div>
       <div>
         <select data-day="${i}" data-meal="almoco" onchange="onSelectChange(event)">
-          ${ALMOCO_OPTIONS.map(o => `<option value="${o.id}" ${state.almoco[i] === o.id ? "selected" : ""}>Opção ${o.id} — ${o.name}</option>`).join("")}
+          ${ALMOCO_OPTIONS.map(o => `<option value="${o.id}" ${state.almoco[i] === o.id ? "selected" : ""}>Opção ${o.id} · ${o.name}</option>`).join("")}
         </select>
         <label class="arroz-toggle">
           <input type="checkbox" data-day="${i}" ${state.arroz[i] ? "checked" : ""} onchange="onArrozChange(event)"> Usar arroz no lugar da raiz
@@ -249,7 +248,7 @@ function renderDaySelectors() {
       </div>
       <div>
         <select data-day="${i}" data-meal="jantar" onchange="onSelectChange(event)">
-          ${JANTAR_OPTIONS.map(o => `<option value="${o.id}" ${state.jantar[i] === o.id ? "selected" : ""}>Opção ${o.id} — ${o.name}</option>`).join("")}
+          ${JANTAR_OPTIONS.map(o => `<option value="${o.id}" ${state.jantar[i] === o.id ? "selected" : ""}>Opção ${o.id} · ${o.name}</option>`).join("")}
         </select>
       </div>
     </div>`).join("");
@@ -283,6 +282,7 @@ function computeTotals() {
   const proteinTotals = {};
   const carbTotals = {};
   const veggieTotals = {};
+  const freshTotals = {};
   const PEOPLE = 2;
 
   DAYS.forEach((_, i) => {
@@ -301,9 +301,10 @@ function computeTotals() {
     if (almocoOpt.extraCarb) {
       carbTotals[almocoOpt.extraCarb.type] = (carbTotals[almocoOpt.extraCarb.type] || 0) + almocoOpt.extraCarb.qty * PEOPLE;
     }
-    // Almoço veggies
+    // Almoço vegetais: os cozidos vão na marmita, os frescos (salada) o casal adiciona em casa
     almocoOpt.veggies.forEach(v => {
-      veggieTotals[v.name] = (veggieTotals[v.name] || 0) + v.qty * PEOPLE;
+      const bucket = v.fresh ? freshTotals : veggieTotals;
+      bucket[v.name] = (bucket[v.name] || 0) + v.qty * PEOPLE;
     });
 
     // Jantar protein
@@ -316,7 +317,7 @@ function computeTotals() {
         carbTotals[jantarOpt.chefCarb.type] = (carbTotals[jantarOpt.chefCarb.type] || 0) + jantarOpt.chefCarb.qty * PEOPLE;
       }
     }
-    // Jantar extras (treated as veggie/extra bucket)
+    // Jantar extras (complementos entregues junto com a proteína)
     if (jantarOpt.chefExtra) {
       jantarOpt.chefExtra.forEach(e => {
         veggieTotals[e.name] = (veggieTotals[e.name] || 0) + e.qty * PEOPLE;
@@ -324,8 +325,16 @@ function computeTotals() {
     }
   });
 
-  return { proteinTotals, carbTotals, veggieTotals };
+  return { proteinTotals, carbTotals, veggieTotals, freshTotals };
 }
+
+// Instrução de preparo por tipo de proteína (o mesmo preparo em dias diferentes é somado num só passo)
+const PROTEIN_INSTRUCTIONS = {
+  frango_grelhar: "Grelhar peito de frango",
+  frango_desfiar: "Cozinhar e desfiar peito de frango",
+  peixe: "Grelhar filé de tilápia",
+  patinho_tiras: "Grelhar ou refogar patinho em tiras",
+};
 
 function fmtQty(grams) {
   if (grams >= 1000) return (grams / 1000).toFixed(2).replace(/\.00$/, "").replace(".", ",") + " kg";
@@ -333,38 +342,47 @@ function fmtQty(grams) {
 }
 
 function renderResults() {
-  const { proteinTotals, carbTotals, veggieTotals } = computeTotals();
+  const { proteinTotals, carbTotals, veggieTotals, freshTotals } = computeTotals();
   const grid = document.getElementById("results-grid");
 
   const proteinRows = Object.keys(PROTEIN_LABELS).map(key => {
     const val = proteinTotals[key] || 0;
     if (!val) return "";
-    return `<div class="result-row"><span>${PROTEIN_LABELS[key]}</span><span class="qty">${fmtQty(val)}</span></div>`;
+    return `<div class="result-row"><span>${PROTEIN_INSTRUCTIONS[key]}</span><span class="qty">${fmtQty(val)}</span></div>`;
   }).join("") || `<div class="result-row empty">Nenhuma proteína selecionada</div>`;
 
   const carbRows = Object.keys(CARB_LABELS).map(key => {
     const val = carbTotals[key] || 0;
     if (!val) return "";
-    return `<div class="result-row"><span>${CARB_LABELS[key]}</span><span class="qty">${fmtQty(val)}</span></div>`;
+    const label = CARB_LABELS[key].replace(" cozido", "");
+    return `<div class="result-row"><span>Cozinhar ${label}</span><span class="qty">${fmtQty(val)}</span></div>`;
   }).join("") || `<div class="result-row empty">Nenhum carboidrato selecionado</div>`;
 
   const veggieRows = Object.keys(veggieTotals).map(key => {
-    return `<div class="result-row"><span>${key}</span><span class="qty">${fmtQty(veggieTotals[key])}</span></div>`;
-  }).join("") || `<div class="result-row empty">—</div>`;
+    return `<div class="result-row"><span>Preparar ${key}</span><span class="qty">${fmtQty(veggieTotals[key])}</span></div>`;
+  }).join("") || `<div class="result-row empty">Nenhum vegetal a cozinhar</div>`;
+
+  const freshRows = Object.keys(freshTotals).map(key => {
+    return `<div class="result-row"><span>${key} (fresco, não cozinhar)</span><span class="qty">${fmtQty(freshTotals[key])}</span></div>`;
+  }).join("");
 
   grid.innerHTML = `
     <div class="result-card">
-      <h4>🥩 Proteínas a cozinhar (semana)</h4>
+      <h4>🔥 Instruções de preparo · proteínas (semana) · já para as 2 pessoas</h4>
       ${proteinRows}
     </div>
     <div class="result-card" style="border-top-color:#e76f51;">
-      <h4>🍠 Carboidratos a cozinhar (semana)</h4>
+      <h4>🍠 Instruções de preparo · carboidratos (semana) · já para as 2 pessoas</h4>
       ${carbRows}
     </div>
     <div class="result-card" style="border-top-color:#3b82f6;">
-      <h4>🥦 Vegetais e outros itens a preparar (semana)</h4>
+      <h4>🥦 Vegetais a cozinhar, vão na marmita (semana) · já para as 2 pessoas</h4>
       ${veggieRows}
     </div>
+    ${freshRows ? `<div class="result-card" style="border-top-color:#a855f7;">
+      <h4>🥗 Saladas frescas, casal adiciona em casa (semana) · já para as 2 pessoas</h4>
+      ${freshRows}
+    </div>` : ""}
   `;
 }
 
@@ -378,7 +396,12 @@ function renderDailyPlan() {
       ? `Arroz branco: ${almocoOpt.carb.arrozQty * 2}g`
       : `${CARB_LABELS[almocoOpt.carb.type]}: ${almocoOpt.carb.qty * 2}g`;
     const extraCarbLabel = almocoOpt.extraCarb ? ` + ${CARB_LABELS[almocoOpt.extraCarb.type]}: ${almocoOpt.extraCarb.qty * 2}g` : "";
-    const veggieLabel = almocoOpt.veggies.map(v => `${v.name} ${v.qty * 2}g`).join(", ");
+    const cookedVeggies = almocoOpt.veggies.filter(v => !v.fresh);
+    const freshVeggies = almocoOpt.veggies.filter(v => v.fresh);
+    const veggieLabel = cookedVeggies.map(v => `${v.name} ${v.qty * 2}g`).join(", ");
+    const freshLabel = freshVeggies.length
+      ? `<br><span class="em-casa">🥗 Salada fresca, adicionar em casa: ${freshVeggies.map(v => `${v.name} ${v.qty * 2}g`).join(", ")}</span>`
+      : "";
 
     let jantarChef = `${PROTEIN_LABELS[jantarOpt.chefProtein.type]}: ${jantarOpt.chefProtein.qty * 2}g`;
     if (jantarOpt.chefCarb) {
@@ -393,12 +416,12 @@ function renderDailyPlan() {
     <div class="day-card">
       <h5>${day}</h5>
       <div class="meal-block">
-        <div class="meal-label">🍽️ Almoço — pronto</div>
-        <div class="meal-content">${PROTEIN_LABELS[almocoOpt.protein.type]}: ${almocoOpt.protein.qty * 2}g<br>${carbLabel}${extraCarbLabel}<br>${veggieLabel}</div>
+        <div class="meal-label">🍽️ Almoço (marmita pronta)</div>
+        <div class="meal-content">${PROTEIN_LABELS[almocoOpt.protein.type]}: ${almocoOpt.protein.qty * 2}g<br>${carbLabel}${extraCarbLabel}<br>${veggieLabel}${freshLabel}</div>
       </div>
       <div class="meal-block">
-        <div class="meal-label">🌙 Jantar — insumo entregue</div>
-        <div class="meal-content">${jantarChef}<span class="em-casa">Em casa: ${jantarOpt.emCasa}</span></div>
+        <div class="meal-label">🌙 Jantar (ingredientes separados)</div>
+        <div class="meal-content">${jantarChef}<span class="em-casa">Montar em casa: ${jantarOpt.emCasa}</span></div>
       </div>
     </div>`;
   }).join("");
