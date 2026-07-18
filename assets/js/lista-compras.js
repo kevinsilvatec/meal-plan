@@ -8,7 +8,7 @@
   // Categoria padrão de cada item: itens mensais (não perecíveis) vão por
   // padrão para 'internet'; itens semanais (frescos/perecíveis) vão por
   // padrão para 'presencial'. Pode ser sobrescrito item a item pelos
-  // botões 🌐/🏬 — a sobreposição é sincronizada entre os dois aparelhos.
+  // botões 🌐/🏬: a sobreposição é sincronizada entre os dois aparelhos.
   function defaultChannelForId(id) {
     return id.indexOf('mensal-') === 0 ? 'internet' : 'presencial';
   }
@@ -411,7 +411,7 @@
 
   async function pushRemoteState(state) {
     const token = getToken();
-    if (!token) { setSyncStatus('⚠️ Sem token — mudança salva só neste aparelho', 'warn'); return false; }
+    if (!token) { setSyncStatus('⚠️ Sem token, mudança salva só neste aparelho', 'warn'); return false; }
     const body = {
       message: 'Atualiza lista de compras',
       content: b64EncodeUnicode(JSON.stringify(state, null, 2)),
@@ -451,7 +451,7 @@
       return true;
     } catch (err) {
       console.warn('Erro de rede ao salvar no GitHub:', err);
-      setSyncStatus('⚠️ Sem conexão — salvo só neste aparelho', 'warn');
+      setSyncStatus('⚠️ Sem conexão, salvo só neste aparelho', 'warn');
       return false;
     }
   }
@@ -459,7 +459,7 @@
   async function syncFromRemote() {
     const remote = await fetchRemoteState();
     if (remote === null) {
-      setSyncStatus(getToken() ? '⚠️ Não foi possível buscar a lista compartilhada' : '⚠️ Sem token configurado — clique em "Configurar token"', 'warn');
+      setSyncStatus(getToken() ? '⚠️ Não foi possível buscar a lista compartilhada' : '⚠️ Sem token configurado, clique em "🔑 Token do GitHub" no canto da tela', 'warn');
       return;
     }
     const local = currentFullState();
