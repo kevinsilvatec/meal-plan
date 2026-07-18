@@ -45,7 +45,7 @@
     "mensal-sementes-4": true,
     "mensal-sementes-5": true,
     "mensal-sementes-6": true,
-    "semanal-proteinas-1": true,
+    "semanal-proteinas-1": false,
     "semanal-proteinas-3": false,
     "mensal-oleos-5": true,
     "semanal-proteinas-4": true,
