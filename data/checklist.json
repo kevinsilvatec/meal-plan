@@ -202,7 +202,8 @@
     "semanal-frutas-6": "internet",
     "semanal-frutas-7": "internet",
     "semanal-frutas-8": "internet",
-    "custom-mrzer6jo-5k2v1": "internet"
+    "custom-mrzer6jo-5k2v1": "internet",
+    "custom-mrzexkgv-b66lq": "presencial"
   },
   "removed": [
     "mensal-suplementos-2",
@@ -233,6 +234,17 @@
       "qtyFreq": "/sem.",
       "section": "semanal",
       "type": "proteinas"
+    },
+    {
+      "id": "custom-mrzexkgv-b66lq",
+      "name": "Milho para pipoca",
+      "note": "",
+      "qty": "2 unid./mês",
+      "qtyValue": "2",
+      "qtyUnit": "unid.",
+      "qtyFreq": "/mês",
+      "section": "mensal",
+      "type": "carboidratos"
     }
   ]
 }
