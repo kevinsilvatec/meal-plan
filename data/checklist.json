@@ -233,17 +233,6 @@
       "qtyFreq": "/sem.",
       "section": "semanal",
       "type": "proteinas"
-    },
-    {
-      "id": "custom-mrzer6jo-5k2v1",
-      "name": "Milho de pipoca",
-      "note": "",
-      "qty": "unid./mês",
-      "qtyValue": "",
-      "qtyUnit": "unid.",
-      "qtyFreq": "/mês",
-      "section": "mensal",
-      "type": "suplementos"
     }
   ]
 }
