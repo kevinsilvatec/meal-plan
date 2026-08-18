@@ -216,7 +216,8 @@
     "semanal-frutas-8": "internet",
     "custom-mrzer6jo-5k2v1": "internet",
     "custom-mrzexkgv-b66lq": "presencial",
-    "custom-msz98gdm-2g3mc": "presencial"
+    "custom-msz98gdm-2g3mc": "presencial",
+    "custom-msz9hay3-u0b92": "internet"
   },
   "removed": [
     "mensal-suplementos-2",
@@ -269,6 +270,17 @@
       "qtyFreq": "/mês",
       "section": "mensal",
       "type": "oleos"
+    },
+    {
+      "id": "custom-msz9hay3-u0b92",
+      "name": "Ketchup",
+      "note": "",
+      "qty": "1 unid./mês",
+      "qtyValue": "1",
+      "qtyUnit": "unid.",
+      "qtyFreq": "/mês",
+      "section": "mensal",
+      "type": "temperos"
     }
   ]
 }
