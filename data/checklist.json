@@ -75,7 +75,7 @@
     "mensal-temperos-9": true,
     "mensal-carboidratos-7": true,
     "mensal-carboidratos-3": true,
-    "semanal-laticinios-1": true,
+    "semanal-laticinios-1": false,
     "semanal-laticinios-4": true,
     "mensal-sementes-3": true,
     "mensal-oleos-3": true,
